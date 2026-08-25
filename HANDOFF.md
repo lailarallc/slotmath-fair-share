@@ -1,4 +1,4 @@
-# Fair Share — Handoff Log
+# Slot Math — Handoff Log
 
 Session-by-session state. Updated by /log mid-session and /wrap at
 session end.

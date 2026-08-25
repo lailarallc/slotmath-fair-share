@@ -1,11 +1,26 @@
-# Fair Share — Current Work Plan
+# Slot Math — Current Work Plan
 
 The current arc of work. Updated when the arc changes, not every
 session. For session-by-session state, see HANDOFF.md.
 
 ---
 
-## Goal
+## Project goal (clarified 2026-08-25)
+
+Ship **Slot Math**: a within-footprint allocation tool for buyer meetings —
+"which retailers under-carry you relative to demonstrated demand, and what the
+next slot is worth there," per retailer × region. Three views (Index, Dollarizer,
+Heatmap), both index directions shown and **fully dollarized**. It never calls
+itself fair share; true category **Fair Share** is the client-mode/roadmap
+upgrade. Full scope, the five resolved forks, and pre-registered gate rules live
+in DECISIONS.md (2026-08-25 entries) and BRIEF.md.
+
+Gated by the data-readiness check below — if within-footprint indices come out
+flat, the build does not proceed as-is.
+
+---
+
+## Goal (current arc)
 
 Data readiness check: prove the SSOT's authorization + sales patterns produce
 interesting fair-share stories (indices that vary meaningfully from 1.0) before
