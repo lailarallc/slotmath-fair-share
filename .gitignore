@@ -1,0 +1,35 @@
+# Rendered output
+# NOTE: *.html is commented out — stack is undecided (Dash vs static-HTML
+# pattern). If we ship a hand-authored static front end, source .html must
+# be tracked. Re-enable this only if switching to a Quarto/R render pipeline.
+# *.html
+_freeze/
+_site/
+
+# R
+.Rproj.user/
+.Rhistory
+.RData
+.Rdata
+renv/library/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment and secrets
+.env
+*.env
+*.key
+credentials.*
+
+# Data files (uncomment if needed)
+# *.db
+# *.sqlite
+# data/raw/
+
+# OS
+.DS_Store
+Thumbs.db
