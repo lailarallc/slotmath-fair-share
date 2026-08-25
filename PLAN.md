@@ -40,22 +40,16 @@ per-slot velocity. Nobody has measured it. 2–4 hours settles a 1–1.5 week co
 On honest SSOT data, does the slot-share ÷ dollar-share index vary enough across
 retailer × region to carry a demo — or does it cluster at ~1.0?
 
-## Tasks
+## Tasks — ✅ COMPLETE (gate passed 2026-08-25)
 
-Throwaway notebook first — no tool code until it clears.
-
-- [ ] Build the notebook against the **REAL SSOT ONLY** (the Door Math
-      `cinderhaven-store-universe` fixture is BANNED as evidence): join
-      `raw.distribution_log` (drop_duplicates on sku,store_id = slot footprint) to
-      `raw.scan_data` (units + dollars) via `dim_stores` (region/retailer/volume_tier)
-- [ ] Compute the index per retailer × region: (share of our slots) ÷ (share of our
-      dollar/sales) — proportionality, spread defined on **velocity/dollar dispersion**
-- [ ] Count cells outside 0.7–1.3; dollarize the widest gap in comparable-store scan
-      revenue (same currency as Void Finder — NO margin)
-- [ ] Verdict: **≥2–3 cells clear the band with a gap worth a buyer conversation →
-      build.** **Flat ≈1.0 → within-footprint demo is dead on honest data; tool drops
-      to client-mode-only and we STOP.** No fixture fallback, no seeding.
-- [ ] Record the gate result (numbers + verdict) in DECISIONS.md
+- [x] Build the gate against the **REAL SSOT ONLY** (fixture banned) —
+      `analysis/readiness_gate.py`, raw.distribution_log slots + raw.scan_data dollars
+      via raw.stores, connected through flyctl proxy
+- [x] Compute the index per retailer × region: slot-share ÷ dollar-share (dispersion)
+- [x] Count cells outside 0.7–1.3; dollarize the widest gap (scan revenue, no margin)
+- [x] Verdict: **✅ BUILD** — 11/30 cells outside band, widest $1.22M (Costco West),
+      sanity $32.3M CY2025 to the dollar
+- [x] Gate result recorded in DECISIONS.md (2026-08-25 — GATE RESULT)
 
 ## Open questions — RESOLVED in /clarify + /office-hours (see DECISIONS.md 2026-08-25)
 
@@ -75,12 +69,17 @@ Throwaway notebook first — no tool code until it clears.
 - Client-mode category feed / path 2 upstream category-context package
 - Any seeded-story or fixture data — the gate runs on the honest warehouse only
 
-## Definition of done for this arc
+## Definition of done for this arc — ✅ MET
 
-- [ ] The index is computed from real SSOT data (fixture never touched)
-- [ ] The distribution is characterized (how many cells clear 0.7–1.3; widest $ gap)
-- [ ] A go / client-mode-only decision is recorded in DECISIONS.md with the numbers
-- [ ] If go: unblock /plan-ceo-review → /plan-eng-review → /decompose
+- [x] The index is computed from real SSOT data (fixture never touched)
+- [x] The distribution is characterized (11/30 outside band; widest $1.22M Costco West)
+- [x] A go decision is recorded in DECISIONS.md with the numbers
+- [x] Go → unblocked. **Next: /plan-ceo-review → /plan-eng-review → /decompose**
+      before defining the build arc.
+
+> **Open methodology item for /plan-eng-review + copy:** channel-awareness (club vs.
+> conventional grocery). Costco's under-shelf signal is partly a club-channel artifact;
+> don't headline it unqualified. See DECISIONS.md gate-result caveat.
 
 ---
 

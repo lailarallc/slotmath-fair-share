@@ -72,6 +72,27 @@ Each entry:
   - **Flat ≈ 1.0 → the within-footprint demo is dead on honest data; tool drops to
     client-mode-only and we stop.** No fixture fallback.
 
+### 2026-08-25 — GATE RESULT: ✅ PASS. Build the within-footprint demo.
+- **Ran:** `analysis/readiness_gate.py` against the live SSOT via flyctl proxy
+  (fixture never touched). Window auto = CY2025 (2024-12-28 → 2025-12-27).
+- **Sanity:** total scan $ = **$32,323,140** (= canonical $32.3M CY2025 to the
+  dollar); 9,176 authorized slots (= canonical). Confirms real warehouse, right window.
+- **Result:** **11 of 30 retailer × region cells fall outside 0.7–1.3.** Widest gap
+  **Costco West: index 0.33, $1.22M** under-shelved. Costco is under-shelved in all
+  five regions (0.33–0.60); over-shelved cells include Walmart West (1.34, −$736k),
+  Regional NE (1.84), Sprouts West (1.34). Per-cell detail: `analysis/output/readiness_gate.csv`.
+- **Mechanism confirmed:** presence is saturated (~99.5%), so spread is entirely
+  velocity/dollar dispersion — exactly what office-hours said had to be true for the
+  demo to live. It is.
+- **Decision:** proceed to build. Unblocks /plan-ceo-review → /plan-eng-review → /decompose.
+- **Caveat carried into build (NOT a gate failure):** the Costco signal is dominant
+  because club channels structurally carry few SKUs at huge velocity — a 0.33 index may
+  be "club-normal," not a literal 3× slot-expansion case. **The index and/or copy likely
+  need channel-awareness (club vs. conventional grocery).** The cleaner, less-arguable
+  stories are the over-shelved grocery cells. Resolve in /plan-eng-review + copy.
+- **Do not:** headline "Costco under-shelves you by $1.2M" without the club-channel
+  framing — that's the kind of unqualified claim the honesty brand can't ship.
+
 ---
 
 ## Visualization & Dollarization

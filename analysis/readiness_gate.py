@@ -197,6 +197,10 @@ def run(weeks: int, as_of: str | None, gap_threshold: float, save_csv: bool):
 
 
 def main():
+    try:  # Windows consoles default to cp1252; the report uses →/✅ etc.
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:  # noqa: BLE001
+        pass
     p = argparse.ArgumentParser(
         description="Slot Math data-readiness gate (real SSOT only).",
         epilog=(
