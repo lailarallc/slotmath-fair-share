@@ -49,21 +49,36 @@ Each entry:
 - **Why:** The tool is only worth building if SSOT authorization + sales patterns
   already contain shelf-vs-sales mismatches. Rule stated before looking: **measure**
   within-footprint index spread (share of our authorized slots ÷ share of our sales,
-  per retailer × region) and the dollarized gap at the extremes (Void Finder
-  comparable-velocity logic). **If spread is real** (roughly, banners outside
-  0.7–1.3 with a dollarized gap worth a buyer conversation) → ship the
-  within-footprint tool under the honest reframe. **If flat** → stop; the tool drops
-  in priority or the category package becomes the entry price, decided then.
+  per retailer × region) and the dollarized gap at the extremes. **If spread is real**
+  (roughly, banners outside 0.7–1.3 with a dollarized gap worth a buyer conversation)
+  → ship the within-footprint tool under the honest reframe. **If flat** → stop; the
+  tool drops in priority or the category package becomes the entry price, decided then.
 - **Scope:** global (gates all build work)
 - **Do not:** massage a flat result into a demo.
+
+- **Office-hours correction (2026-08-25) — pins the source and the mechanism:**
+  - **Source: the REAL SSOT only** — `raw.distribution_log` (drop_duplicates on
+    sku,store_id = the slot footprint) joined to `raw.scan_data` (units/dollars) via
+    `dim_stores`. **The Door Math demo fixture (`cinderhaven-store-universe`) is
+    explicitly BANNED as evidence** — its per-retailer spread is hard-coded in
+    `constants.py` (`NEVER_SCAN_RATES` 3%–15%), which is exactly the upstream
+    massaging this gate exists to forbid.
+  - **Mechanism: velocity / dollar-share dispersion, not authorization presence.**
+    The real warehouse is ~99.5% authorized-selling penetration and deliberately
+    homogeneous (0.69pt partner-spread band), so a *presence*-based index collapses
+    to ~1.0. The index is slot-share ÷ **dollar/sales-share** (proportionality) — it
+    can still disperse at ~100% penetration via per-slot velocity. Nobody has measured
+    it; the notebook does.
+  - **Flat ≈ 1.0 → the within-footprint demo is dead on honest data; tool drops to
+    client-mode-only and we stop.** No fixture fallback.
 
 ---
 
 ## Visualization & Dollarization
 
 ### 2026-08-25 — Over-shelved case gets full symmetric dollarization, framed as defensive intel
-- **Why:** Honest-both-ways is the product. Over-shelved = N over-slots × velocity ×
-  margin = $/yr at-risk, shown at full size (never hidden). Framing requirement that
+- **Why:** Honest-both-ways is the product. Over-shelved shown at full size (never
+  hidden), dollarized symmetric to the under-shelved side. Framing requirement that
   answers the "arguing against its own user" worry: present it as *defensive intel*,
   never an indictment — copy frame "This is the number the buyer's category manager
   will compute eventually. See it first, walk in with the answer." Cross-link the
@@ -73,17 +88,104 @@ Each entry:
 - **Do not:** ship the unpriced-risk-line half-measure — a gestured-at number on a
   site whose pitch is "dollarized, not opinion" would be the fleet's first ungrounded
   claim.
+- **Office-hours correction (2026-08-25):** ~~"N over-slots × velocity × **margin** =
+  $/yr"~~ — the "× margin" step is WRONG and is struck. Verified against Void Finder:
+  it dollarizes on comparable-store scan **revenue** (median weekly scan dollars ×
+  weeks); there is no margin/cost column in the Cinderhaven schema and a margin factor
+  was cut from Void Finder as dimensionally invalid (commit `8daf6d7`). See the Dollar
+  Authority decision below for the corrected currency. Symmetric dollarization stays —
+  once the currency is scan revenue (not a bespoke margin step), applying it in both
+  directions is cheap, not a doubled risk.
 
-### 2026-08-25 — Spin Rate cross-link: pre-registered rule, no undocumented coupling
-- **Why:** Spin Rate is a Dash app and may expose no URL-addressable state. Rule
-  stated before checking: **if** it exposes stable URL state (quadrant/item filters
-  in the URL) → one-way deep link, params documented as a contract in **both** repos'
-  DECISIONS **plus a CI link-check test here** that requests the target URL shape so a
-  contract break fails loudly. **If not** → visual pairing now, and log "URL-state
-  support" as Spin Rate's own roadmap item (becomes a one-line change here later).
+### 2026-08-25 — Spin Rate cross-link: RESOLVED to visual pairing only
+- **Why:** The pre-registered rule said "check Spin Rate's URL state first." Verified:
+  Spin Rate has **zero URL-addressable state** — no `dcc.Location`, no query parsing;
+  all filter/selection state lives in session/memory `dcc.Store`. A deep link is
+  therefore impossible without code changes to Spin Rate (out of scope). The rule's
+  else-branch fires automatically.
+- **Decision:** visual pairing only (reference the hidden-gem quadrant conceptually;
+  no deep link). Log "URL-state support (add `dcc.Location` + query-param callbacks)"
+  as **Spin Rate's own roadmap item**; if/when it ships, this becomes a one-line change
+  here (and only then does the contract + CI link-check test apply).
 - **Scope:** Heatmap / cross-tool links
-- **Do not:** create an undocumented dependency on Spin Rate's URL schema (option 1
-  is off the table either way).
+- **Do not:** build a deep link against Spin Rate today; do not add URL state to Spin
+  Rate as part of Slot Math's scope.
+
+### 2026-08-25 — Dollar authority: Slot Math quotes the same currency as Void Finder
+- **Why:** Three fleet tools (Void Finder, Door Math, Slot Math) can price the same
+  retailer × region gap. If they use different currencies they contradict each other in
+  front of the exact adversary the honesty framing respects (the category manager
+  reading two of our tools side by side). Void Finder's verified currency is
+  **comparable-store scan revenue** (median comparable-store weekly scan dollars ×
+  weeks; no margin). Slot Math dollarizes in that same currency, **labeled as scan
+  revenue**, and must reconcile with Void Finder's figure for the same void.
+- **Scope:** Dollarizer, both directions; any $ the tool prints
+- **Do not:** introduce a margin/contribution step unilaterally. A margin basis is now
+  *buildable* (an `economics()` helper exists upstream), but switching the fleet's
+  dollar basis is a **fleet-wide decision across all tools at once** — logged as a
+  roadmap item, never a one-tool fork.
+
+---
+
+## Positioning & Product framing
+
+### 2026-08-25 — The demo is an internal targeting + engagement-qualifier tool, NOT the in-room buyer weapon
+- **Why:** The demo's metric is brand-vs-self across the brand's own footprint; a buyer
+  allocates on brand-vs-**category** within *their* stores, holding syndicated
+  Circana/IRI data that outranks a brand's self-supplied distribution. The two indices
+  are orthogonal and can point opposite ways (ours 1.5 "under-carried"; their Circana
+  0.6 "underperforms the category") — and the buyer holds the governing one. So the
+  demo cannot honestly be sold as the in-room argument; the category weapon is exactly
+  the part gated behind client mode.
+- **Decision:** The demo's two jobs are (1) **which door to push first** — where the
+  brand's own footprint shows demand outrunning slots — and (2) **whether the spread is
+  big enough to justify paying for the syndicated category work** (client mode).
+  Success metric = **converts to the paid category engagement**, not "wins the meeting"
+  (a conversion story no other portfolio tool has). The **over-shelved defensive-intel
+  number is the single meeting-ready output** (the number the category manager computes
+  anyway — see it first). No in-room *offensive* claim ships in the demo.
+- **The Circana answer belongs to the ENGAGEMENT, not demo copy:** when their category
+  number points the other way, the brand's honest reply is *composition, not
+  contradiction* — "both numbers are real; that's why the ask is targeted: these SKUs
+  (Spin Rate), these stores (Void Finder), not more slots blindly." A targeted proposal
+  survives Circana because it doesn't dispute it. Log as engagement methodology; keep
+  out of demo marketing claims.
+- **Scope:** global (copy, positioning, case-study / `/work` page framing)
+- **Do not:** describe Slot Math as "the buyer-meeting argument tool" — that phrase from
+  the brief is **superseded everywhere**. Carry the correction into the case-study
+  framing so the marketing never promises the weapon the demo isn't.
+
+---
+
+## Data sources & grain bindings (verified against real repos, 2026-08-25)
+
+### 2026-08-25 — Bind to the actual fleet objects, not the brief's remembered names
+- **Why:** Office-hours grounding checked every reuse claim against the real repos.
+  Corrections that change the build:
+  - **Store dimension is `dim_stores`, not "store_card"** (no such entity exists). Pull
+    region/retailer/volume_tier from `raw.stores → stg_stores → dim_stores` directly —
+    NOT from Door Math's `STORE_INFO` aggregate, which drops region.
+  - **Category sales denominator (client mode) comes from `engagement-template`
+    `pos.py`** (`scan_spec` + `intake()`, grain store_id×sku×week_ending) — NOT from
+    `competitive-shelf-intelligence`, which holds price/shelf-presence only (no
+    units/dollars, one category, Amazon+Walmart). Slot Math becomes engagement
+    consumer repo #31.
+  - **Void Finder velocity logic is copy-adapt, not import** — it lives in private,
+    entangled helpers (`_store_velocity`, `_cohort_medians`, `_attach_comparables`)
+    hardcoded to weekly-scan schema, a 13-week window, and volume_tier+region cohorts.
+    Lift the *pattern* (median comparable-store velocity + widening basis ladder);
+    budget to rebuild the assembly. The "N slots" multiplier is a count with no analog
+    in Void Finder (which accrues by void-weeks) and must be re-derived.
+  - **No all-commodity volume in the SSOT** → true ACV-weighted shelf share cannot be
+    sourced; use `volume_tier` (A/B/C) proxy and state it as a proxy.
+  - **Canonical basis-labeling is mandatory:** every dollar names basis + period (e.g.
+    "$32.3M retail scan (CY2025)"); **6 contracted retailers** (Walmart, Costco, Whole
+    Foods, Sprouts, Kroger, Regional Group) — **not Wegmans**; 50 SKUs / 5 product
+    lines. Canon is `cinderhaven-data-platform/reference/canonical_values.yml` /
+    Postgres — never hardcode a figure from a README/constant/fixture.
+- **Scope:** global (data layer)
+- **Do not:** cite `CINDERHAVEN_CANONICAL.md` values (retired pointer); print a bare
+  total without basis+period.
 
 ---
 

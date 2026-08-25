@@ -1,9 +1,24 @@
 # Fair Share — Tool Brief
 
-> **Status:** Input to the Claude Code project process (brainstorm → clarify →
-> office-hours → plan reviews). This is the idea and its known forks, not a
-> frozen spec. The process should interrogate everything here; the Open
-> Questions section is deliberate ammunition for `/clarify`.
+> **Status:** Historical input to the project process (brainstorm → clarify →
+> office-hours → plan reviews). This is the original idea and its known forks, not a
+> frozen spec. Kept as-is for the trail; where it conflicts with a later decision,
+> **DECISIONS.md (2026-08-25) wins.**
+
+> **⚠ Superseded by office-hours (2026-08-25) — read DECISIONS.md before acting on this file:**
+> - **Name:** the product ships as **Slot Math**, not "Fair Share." Fair Share is the
+>   client-mode / roadmap concept only.
+> - **Positioning:** "the buyer-meeting argument tool" is **wrong** — the demo is an
+>   internal targeting + engagement-qualifier tool, not an in-room buyer weapon.
+> - **Readiness evidence:** citing Door Math's authorization-to-scan gaps was an
+>   **evidence error** — that spread is fixture-authored (banned). The gate runs on the
+>   real SSOT, spread defined on velocity/dollar dispersion. (See FAILURES.md.)
+> - **Dollarizer:** "× margin" **does not exist** and is struck — dollarize in
+>   comparable-store scan revenue, same currency as Void Finder.
+> - **Spin Rate cross-link:** deep links are impossible (no URL state) → **visual
+>   pairing only.**
+> - **Names of objects:** it's `dim_stores`, not "store_card"; category denominator
+>   comes from `engagement-template` `pos.py`, not Competitive Shelf Intelligence.
 
 ## The business question
 

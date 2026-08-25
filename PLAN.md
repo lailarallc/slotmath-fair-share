@@ -22,56 +22,65 @@ flat, the build does not proceed as-is.
 
 ## Goal (current arc)
 
-Data readiness check: prove the SSOT's authorization + sales patterns produce
-interesting fair-share stories (indices that vary meaningfully from 1.0) before
-any planning hardens.
+Data-readiness gate: run the pre-registered index notebook against the **real SSOT**
+and decide go / no-go before any tool code. Office-hours verdict is 🟡 yellow — this
+notebook is the single thing that flips it to green.
 
 ## Why this arc, why now
 
-The brief flags this as the first task and the gate on everything else (~half a
-day). If indices come out uniformly ~1.0, the whole tool needs a small upstream
-seeded-story conversation before it's worth building. Cheaper to find out now.
+Office-hours (2026-08-25) confirmed the whole flagship path rests on one untested
+fact: does the within-footprint index actually disperse on honest data? The evidence
+the brief cited (Door Math auth gaps) was fixture-authored and banned. The real
+warehouse is ~99.5% penetration and homogeneous, so a *presence* index collapses to
+~1.0 — but the index is slot-share ÷ **dollar-share**, which can still disperse via
+per-slot velocity. Nobody has measured it. 2–4 hours settles a 1–1.5 week commitment.
 
 ## Business question this arc answers
 
-Does the underlying data actually contain the "shelf presence vs. sales"
-mismatches the tool is meant to surface — or do we need to seed them?
+On honest SSOT data, does the slot-share ÷ dollar-share index vary enough across
+retailer × region to carry a demo — or does it cluster at ~1.0?
 
 ## Tasks
 
-Work in vertical slices — one thing end-to-end before the next.
+Throwaway notebook first — no tool code until it clears.
 
-- [ ] Locate the SSOT + confirm the grain Door Math consumes (authorization
-      matrix, scan grain, store_card v0.3.0 region/identity)
-- [ ] Compute the demo-mode index (path 1): share of our authorized slots vs
-      share of our sales, per retailer × region
-- [ ] Check the distribution — do indices spread away from 1.0, or cluster?
-- [ ] Verdict: enough natural spread to demo, OR scope a small seeded-story tweak
-- [ ] Write the finding into DECISIONS.md (gate result)
+- [ ] Build the notebook against the **REAL SSOT ONLY** (the Door Math
+      `cinderhaven-store-universe` fixture is BANNED as evidence): join
+      `raw.distribution_log` (drop_duplicates on sku,store_id = slot footprint) to
+      `raw.scan_data` (units + dollars) via `dim_stores` (region/retailer/volume_tier)
+- [ ] Compute the index per retailer × region: (share of our slots) ÷ (share of our
+      dollar/sales) — proportionality, spread defined on **velocity/dollar dispersion**
+- [ ] Count cells outside 0.7–1.3; dollarize the widest gap in comparable-store scan
+      revenue (same currency as Void Finder — NO margin)
+- [ ] Verdict: **≥2–3 cells clear the band with a gap worth a buyer conversation →
+      build.** **Flat ≈1.0 → within-footprint demo is dead on honest data; tool drops
+      to client-mode-only and we STOP.** No fixture fallback, no seeding.
+- [ ] Record the gate result (numbers + verdict) in DECISIONS.md
 
-## Open questions to resolve BEFORE build (via /clarify, then /office-hours)
+## Open questions — RESOLVED in /clarify + /office-hours (see DECISIONS.md 2026-08-25)
 
-Parked here so they don't get silently decided. Full detail in BRIEF.md.
-
-1. Denominator fork (rec: path 1 — within-brand demo, category feed in client mode)
-2. Stack: fleet Dash vs. Lift Math static pattern
-3. Name: Slot Math / Shelf Share / Fair Share (naming before subdomain)
-4. Over-shelved case: own dollarization (rationalization risk $) or index only?
-5. Spin Rate cross-linking depth: visual pairing vs. shared item-level URLs
+1. Denominator → within-footprint demo (path 1); category feed in client mode. ✓
+2. Stack → deferred to /plan-eng-review (lean: static, or static + Heatmap island). ✓
+3. Name → **Slot Math** (Fair Share = roadmap). ✓
+4. Over-shelved → full symmetric dollarization, defensive-intel framing, scan-revenue
+   currency (no margin). ✓
+5. Spin Rate cross-link → **visual pairing only** (Spin Rate has no URL state). ✓
+   Plus office-hours: positioning reframe (targeting + engagement-qualifier, not buyer
+   weapon); dollar authority (reconcile with Void Finder). ✓
 
 ## Out of scope for this arc
 
 - Building any of the three views (Index / Dollarizer / Heatmap)
-- Picking a stack or a name — those are /clarify + /office-hours decisions
+- Picking a stack (→ /plan-eng-review)
 - Client-mode category feed / path 2 upstream category-context package
-- Any seeded-story authoring (only scoped here if the check demands it)
+- Any seeded-story or fixture data — the gate runs on the honest warehouse only
 
 ## Definition of done for this arc
 
-- [ ] The demo-mode index is computed from real SSOT data
-- [ ] The index distribution is characterized (spread vs. clustered at 1.0)
-- [ ] A go/seed decision is recorded in DECISIONS.md with the evidence
-- [ ] If "seed": the minimal seeded-story scope is written down (not yet built)
+- [ ] The index is computed from real SSOT data (fixture never touched)
+- [ ] The distribution is characterized (how many cells clear 0.7–1.3; widest $ gap)
+- [ ] A go / client-mode-only decision is recorded in DECISIONS.md with the numbers
+- [ ] If go: unblock /plan-ceo-review → /plan-eng-review → /decompose
 
 ---
 

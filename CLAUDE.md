@@ -2,13 +2,19 @@
 
 ## What this project is
 
-Slot Math is the seventh tool in the Cinderhaven series: a buyer-meeting argument
-tool for specialty-food brands. Its shipping (demo) form is *allocation math* — a
-within-footprint index (share of our authorized slots ÷ share of our sales) per
-retailer × region, with the gap priced in dollars. True category **Fair Share**
-(share of category slots ÷ share of category sales) is the client-mode/roadmap
-upgrade, computed only when a client brings syndicated category data. The demo
-never calls itself fair share. (See DECISIONS.md 2026-08-25 for the resolved forks.) It shows the index honestly in both directions —
+Slot Math is the seventh tool in the Cinderhaven series, for specialty-food brands.
+Its shipping (demo) form is *allocation math* — a within-footprint index (share of
+our authorized slots ÷ share of our **dollar/sales-share**) per retailer × region,
+with the gap priced in comparable-store scan revenue. **The demo is an internal
+targeting + engagement-qualifier tool** (which door to push first; do you qualify
+for the paid syndicated category work) — **NOT** an in-room buyer weapon. Its
+success metric is *converting to the paid category engagement*. The over-shelved
+"defensive intel" number is the one meeting-ready output. True category **Fair
+Share** (share of category slots ÷ share of category sales) is the client-mode /
+roadmap upgrade, computed only when a client brings syndicated data. The demo never
+calls itself fair share, and never promises the in-room argument. (See DECISIONS.md
+2026-08-25 — Positioning, and all resolved forks; the brief's "buyer-meeting
+argument tool" phrasing is superseded.) It shows the index honestly in both directions —
 under-shelved (below 1.0) becomes a dollarized expansion argument; over-shelved
 (above 1.0) is shown at full size because the buyer will find it first. Three
 views: Index (the verdict), Dollarizer (gap priced via comparable-store
