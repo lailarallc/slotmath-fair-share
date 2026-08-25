@@ -2,18 +2,35 @@
 
 ## What this project is
 
-[One paragraph. What it is, who it's for, what done looks like at the
-highest level. Filled in based on the 95% confidence prompt conversation.]
+Fair Share (working name — see open questions) is the seventh tool in the
+Cinderhaven series: a buyer-meeting argument tool for specialty-food brands. It
+answers whether a brand's shelf presence is proportional to its sales, computing
+a fair-share index (share of item slots ÷ share of sales) per retailer × region
+and pricing the gap in dollars. It shows the index honestly in both directions —
+under-shelved (below 1.0) becomes a dollarized expansion argument; over-shelved
+(above 1.0) is shown at full size because the buyer will find it first. Three
+views: Index (the verdict), Dollarizer (gap priced via comparable-store
+velocity), Heatmap (region × banner grid). Base form needs no new data authoring
+— it runs on the existing SSOT. Full context and open forks: see BRIEF.md.
+
+**Done (base demo) looks like:** the three views computed from SSOT data, both
+index directions shown, gap dollarized, Lailara-framed, deployed to a
+lailarallc.com subdomain.
 
 **Business question this project answers:** Is our shelf presence proportional to our sales — and what's the gap worth?
 
 ## Stack and tools
 
-- Primary language: [your language — e.g., JavaScript, Python, Ruby, etc.]
-- Key packages/libraries: [list the main ones you're using]
-- Database: [if applicable — or remove this line]
-- Entry point: [the main file that starts your project — e.g., index.js, app.py, main.rb]
-- Other tools: [anything else relevant — framework, hosting, etc.]
+- **UNDECIDED (open question #2):** fleet Dash app vs. Lift Math static
+  precomputed pattern. No request-time compute is required either way
+  (precomputed + light front end is viable). Resolve in /clarify or
+  /office-hours before building. Do not pick a stack silently.
+- Reuse (regardless of stack): comparable-store velocity logic (Void Finder),
+  store identity/region (store_card v0.3.0), authorization matrix + scan grain
+  (SSOT, as Door Math consumes it), Lailara brand frame, engagement client-mode
+  scaffold with POS intake preflight, Lift Math URL-state conventions if the
+  stack supports them.
+- Hosting: lailarallc.com subdomain (name → subdomain decided after naming).
 
 ## Project files
 
@@ -28,18 +45,18 @@ FAILURES.md as relevant.
 
 ## Voice and standards
 
-- [Describe how written output should sound — e.g., "casual and
-  clear", "professional but approachable", "technical and precise"]
+- Lailara / Cinderhaven series voice: Economist style — sober, declarative,
+  data-forward. Honest-both-ways framing is the product; never soften the
+  over-shelved case.
+- Charts must be readable by a buyer in a meeting, not a data scientist.
+  30-second rule on the Index view: one banner line, one chart, one table.
+- Visual work follows LAILARA_DESIGN_SYSTEM.md (read it before styling — do not
+  assert colors/fonts/chart constants from memory). Any browser deliverable on a
+  lailarallc.com subdomain must pass the Deployed UI gate (1200px centered
+  container, brand frame, checked at 1440px and 375px).
 - No marketing voice or consultant filler ("leverage," "synergy,"
-  "best-in-class," "unlock," "drive value")
-- No hedging that softens a real finding
-
-<!-- OPTIONAL: Data science / reporting projects — uncomment if relevant:
-- Economist style for written deliverables: sober, declarative,
-  data-forward
-- Charts must be readable by non-data-scientist, non-researcher
-  audiences
--->
+  "best-in-class," "unlock," "drive value").
+- No hedging that softens a real finding.
 
 ## Rules
 

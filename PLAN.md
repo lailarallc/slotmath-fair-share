@@ -7,44 +7,56 @@ session. For session-by-session state, see HANDOFF.md.
 
 ## Goal
 
-[One sentence — what "done" looks like for this arc.]
+Data readiness check: prove the SSOT's authorization + sales patterns produce
+interesting fair-share stories (indices that vary meaningfully from 1.0) before
+any planning hardens.
 
 ## Why this arc, why now
 
-[One or two sentences. The reason matters when you come back in three
-weeks and wonder why this was the priority.]
+The brief flags this as the first task and the gate on everything else (~half a
+day). If indices come out uniformly ~1.0, the whole tool needs a small upstream
+seeded-story conversation before it's worth building. Cheaper to find out now.
 
 ## Business question this arc answers
 
-[One sentence. Direct connection to the project-level business question
-in CLAUDE.md.]
+Does the underlying data actually contain the "shelf presence vs. sales"
+mismatches the tool is meant to surface — or do we need to seed them?
 
 ## Tasks
 
-Work in vertical slices — one section/feature end-to-end before moving
-to the next. Visualizations get reviewed in their own slice, not
-deferred to a polish phase.
+Work in vertical slices — one thing end-to-end before the next.
 
-- [ ] Specific, scoped, actionable
-- [ ] Each one is a thing Claude Code could plausibly finish in one
-      session
-- [ ] If a task feels too big, break it down before adding it
-- [x] Completed items stay struck or checked, so the trail is visible
+- [ ] Locate the SSOT + confirm the grain Door Math consumes (authorization
+      matrix, scan grain, store_card v0.3.0 region/identity)
+- [ ] Compute the demo-mode index (path 1): share of our authorized slots vs
+      share of our sales, per retailer × region
+- [ ] Check the distribution — do indices spread away from 1.0, or cluster?
+- [ ] Verdict: enough natural spread to demo, OR scope a small seeded-story tweak
+- [ ] Write the finding into DECISIONS.md (gate result)
+
+## Open questions to resolve BEFORE build (via /clarify, then /office-hours)
+
+Parked here so they don't get silently decided. Full detail in BRIEF.md.
+
+1. Denominator fork (rec: path 1 — within-brand demo, category feed in client mode)
+2. Stack: fleet Dash vs. Lift Math static pattern
+3. Name: Slot Math / Shelf Share / Fair Share (naming before subdomain)
+4. Over-shelved case: own dollarization (rationalization risk $) or index only?
+5. Spin Rate cross-linking depth: visual pairing vs. shared item-level URLs
 
 ## Out of scope for this arc
 
-- Things explicitly NOT being done in this round
-- Captures the decisions about what to defer
-- Prevents scope creep mid-session
+- Building any of the three views (Index / Dollarizer / Heatmap)
+- Picking a stack or a name — those are /clarify + /office-hours decisions
+- Client-mode category feed / path 2 upstream category-context package
+- Any seeded-story authoring (only scoped here if the check demands it)
 
 ## Definition of done for this arc
 
-- [ ] Specific, verifiable conditions
-- [ ] Not "the prose is better" — "every section's executive summary
-      has been reviewed and either approved or marked for domain
-      insertion"
-- [ ] When all of these are checked, the arc is done and a new PLAN.md
-      arc gets defined
+- [ ] The demo-mode index is computed from real SSOT data
+- [ ] The index distribution is characterized (spread vs. clustered at 1.0)
+- [ ] A go/seed decision is recorded in DECISIONS.md with the evidence
+- [ ] If "seed": the minimal seeded-story scope is written down (not yet built)
 
 ---
 
