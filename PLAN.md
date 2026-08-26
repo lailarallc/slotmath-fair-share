@@ -166,6 +166,11 @@ Steps:
     - Depends on: S1, D1
     - Done when: renders the OVER grocery/mass cells with gap$, Costco hidden behind a
       toggle, the over-shelved list links to SKU Rationalization, legible at 1440px & 375px.
+      ✅ Built + deployed: hero ($736K Walmart West, 9.0%/6.7%, idx 1.34), 6-cell
+      over-shelved table-as-chart (Tokyo bars, total $1.64M), Costco disclosure w/
+      club-normal caveat, SKU-Rationalization cross-link, Lailara brand frame (vendored
+      fonts+CSS). All colors are --ll-* tokens. ⏳ **Visual legibility at 1440/375 pending
+      eyeball** — Browser pane can't composite screenshots in this session.
 - [ ] V2: Index verdict + table — one banner line, one chart, per-cell table; continuous
       index value + gap$ (not just OVER/in-band bucket).
     - Depends on: S1, D1
