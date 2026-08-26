@@ -115,12 +115,14 @@ Steps:
     - Done when: `npm run build` emits static files to `build/` and `npm run preview`
       shows the stub value; **the stub matches D1's exact JSON schema (same cell keys +
       metadata shape, fake values) so the D1 swap is a file replacement, not a refactor.**
-- [ ] S2: Add the GoatCounter script to `app.html` and a CTA `<a>` whose click handler
+- [x] S2: Add the GoatCounter script to `app.html` and a CTA `<a>` whose click handler
       fires `window.goatcounter.count({ path: 'cta_click', event: true })`; vendor the
       engagement-template deploy-guard as a pre-push hook.
     - Depends on: S1
     - Done when: locally, clicking the CTA calls `count(...)` (verify in devtools
       Network → request to `lailara.goatcounter.com/count`); pre-push hook runs.
+      ✅ Script + CTA in built HTML; guards no-op; hook active (`core.hooksPath`). The
+      network *send* is localhost-suppressed by GoatCounter — verified on deploy (S3).
 - [ ] S3: GitHub Actions job — build-in-CI (no token in build container) →
       `wrangler pages deploy build --project-name=slotmath --branch=main`; Git
       integration stays OFF.

@@ -25,6 +25,13 @@ node_modules/
 /.svelte-kit
 /package-lock.json.bak
 
+# Engagement deploy-guard: client mode is runtime-only, never committed/deployed.
+# Demo/example configs (engagement.demo.yml, engagement.example.yml) stay committable.
+client-data/
+client-output/
+engagement.yml
+engagement.yaml
+
 # Environment and secrets
 .env
 *.env
