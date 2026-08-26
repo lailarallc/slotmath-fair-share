@@ -37,8 +37,14 @@ skeleton** (SvelteKit static → `slotmath.lailarallc.com` with a verified GoatC
 `cta_click` event). Then precompute + commit the frozen 30-cell JSON.
 **Three manual prerequisites before Day-0 can fail-fast — do these first:**
 1. `flyctl auth login` (interactive) — needed for the precompute proxy.
-2. Create a **GoatCounter** account (goatcounter.com, free) + add the site. (Switched
-   from Plausible — paid; see DECISIONS.md 2026-08-26.)
+2. ✅ **DONE 2026-08-26** — GoatCounter account created: **`lailara`**
+   (https://lailara.goatcounter.com), site `slotmath.lailarallc.com` added.
+   Snippet for `app.html`:
+   `<script data-goatcounter="https://lailara.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`
+   Day-0 verify notes: test with **adblocker OFF** (blockers eat `gc.zgo.at`);
+   GoatCounter ignores localhost — verify on the deployed build only (matches the
+   acceptance rule). Undercounting from blockers hits clicks and pageviews alike,
+   so the threshold *rate* survives; levels read low.
 3. One-time Cloudflare Pages domain attach of `slotmath.lailarallc.com` (project name
    `slotmath`, Git integration OFF).
 
