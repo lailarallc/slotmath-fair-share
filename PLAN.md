@@ -130,6 +130,9 @@ Steps:
     - Done when: `slotmath.lailarallc.com` serves the skeleton AND one `cta_click`
       event records in GoatCounter from the **deployed** build (adblocker OFF; localhost
       is ignored by design).
+    - **In progress:** `.github/workflows/deploy.yml` written (adapted from Lift Math);
+      `CLOUDFLARE_ACCOUNT_ID` secret set. **Blocked on `CLOUDFLARE_API_TOKEN`** (user
+      adds it → Code pushes → first run deploys). Then verify the event on the deployed build.
 
 **Phase D — Freeze the data**
 - [ ] D1: Adapt `analysis/readiness_gate.py`'s aggregation into a precompute that emits
