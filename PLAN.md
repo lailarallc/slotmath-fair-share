@@ -137,7 +137,7 @@ Steps:
       confirm one `cta_click` in the GoatCounter dashboard. Then S3 is fully closed.
 
 **Phase D — Freeze the data**
-- [ ] D1: Adapt `analysis/readiness_gate.py`'s aggregation into a precompute that emits
+- [x] D1: Adapt `analysis/readiness_gate.py`'s aggregation into a precompute that emits
       the 30-cell JSON — per cell: retailer, region, slots, dollars, slot_share,
       dollar_share, signed index, `gap_$`, **`retail_channel` ∈ {club,mass,grocery}**
       (club = Costco) — plus metadata (query date, window=CY2025, gate git SHA,
@@ -145,6 +145,9 @@ Steps:
     - Depends on: (none; needs flyctl auth + proxy)
     - Done when: `data/slotmath.json` is committed with 30 cells + metadata and totals
       = $32,323,140 / 9,176 slots.
+      ✅ `analysis/precompute.py` → 30 cells, **$32,323,139.62** / 9,176 (canonical to the
+      cent), channels club 5 / mass 5 / grocery 20, full precision (Σgap≈0 to float
+      epsilon). File-replace swap confirmed: site renders real data, no code change.
 - [ ] D2: Invariant test asserting the committed JSON: sum $32,323,140, 9,176 slots, 30
       cells, `Σgap$ = 0`, all 6 OVER cells non-Costco / all 5 UNDER cells Costco,
       `retail_channel` present on every cell. Wire into the CI gate.
