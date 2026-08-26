@@ -86,11 +86,21 @@ Each entry:
   "right at the line").
 - **Do not:** headline any Costco/club figure without the flag.
 
-### 2026-08-26 — Instrumentation: Plausible custom event + pre-registered threshold
-- **Decision:** Plausible custom event `cta_click`, fired once, **param-less** (no query
-  string, no selection state, no identifiers — the URL carries retailer/region/channel;
-  never send it). Cookieless, no consent banner.
-- **Pre-registered before deploy (same discipline as the data gate):**
+### 2026-08-26 — Instrumentation: ~~Plausible~~ → GoatCounter custom event + pre-registered threshold
+- **Decision:** **GoatCounter** (free hosted, goatcounter.com) custom event `cta_click`,
+  fired once, **param-less** (no query string, no selection state, no identifiers — the
+  URL carries retailer/region/channel; never send it). Cookieless, no consent banner.
+  Event API: `window.goatcounter.count({ path: 'cta_click', title: 'CTA click',
+  event: true })` in the CTA click handler; add the GoatCounter script to `app.html`.
+- **Switched from Plausible (2026-08-26):** Plausible cloud is **paid** ($9/mo after a
+  30-day trial) — a recurring bill for one metric. GoatCounter's free hosted tier
+  **explicitly permits small-to-medium business use**, is cookieless, and supports the
+  same custom-event + pageview counts the metric needs. **Rejected Plausible self-hosted
+  (CE):** requires Docker + ClickHouse + Postgres — Docker is broken on this machine
+  ([[cinderhaven-ssot-connection]]) and a ClickHouse stack for one event is overkill.
+  GoatCounter self-host (single Go binary + SQLite) is the free fallback if hosted traffic
+  ever exceeds "reasonable" (it won't for this demo).
+- **Pre-registered before deploy (same discipline as the data gate — UNCHANGED):**
   `cta_click_rate = unique cta_click ÷ unique pageviews`. **Min-sample guard:** no kill
   until ≥150 unique pageviews OR 8 weeks. **Rule:** ≥5% → funnel works, scale; 2–5% →
   iterate the page, re-measure; <2% at min-sample → the on-page qualifier→engagement
@@ -98,7 +108,7 @@ Each entry:
   source). **Acceptance:** verify the event actually records in the DEPLOYED build before
   calling the demo done.
 - **Do not:** ship the CTA as an uninstrumented `<a href>`; do not roll a custom beacon
-  (that's request-time compute).
+  (that's request-time compute); do not add cookies or a consent banner.
 
 ### 2026-08-26 — Deploy: Cloudflare Pages, build-in-CI, project name `slotmath`
 - **Decision:** Cloudflare Pages via GitHub Actions (build-in-CI so no token enters the
@@ -117,8 +127,8 @@ Each entry:
 - **Decision (supersedes the CEO gate's value-order for BUILD sequencing):**
   1. **Day-0 walking skeleton** — trivial static page off a stub JSON, deployed end-to-end
      to `slotmath.lailarallc.com` (manual domain attach here), deploy-guard vendored, Git
-     integration OFF, and a **working instrumented CTA firing one recorded Plausible event
-     in the deployed build**. Retires stack + deploy + domain + CTA + guard on day 1.
+     integration OFF, and a **working instrumented CTA firing one recorded GoatCounter
+     event in the deployed build**. Retires stack + deploy + domain + CTA + guard on day 1.
   2. **Freeze the data** — run the precompute locally (flyctl), emit the provenance-stamped
      30-cell JSON (per-cell gap$, signed index, `retail_channel`), commit it.
   3. **Invariant test** — assert JSON sums to $32,323,140, 9,176 slots, 30 cells, Σgap$=0,

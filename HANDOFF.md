@@ -22,7 +22,7 @@ proxy; Docker broken) → ✅ **PASS** (11/30 cells outside band, $1.22M Costco 
 $32.3M CY2025 to the dollar). **/plan-ceo-review** → Revise → ~1-week 2.5-view demo,
 Costco demoted, client mode described-not-built, one CTA. **/plan-eng-review** →
 Needs-work → architecture locked (SvelteKit adapter-static + bespoke SVG,
-freeze-and-commit data flow, first-order gap verbatim, 3-value channel enum, Plausible
+freeze-and-commit data flow, first-order gap verbatim, 3-value channel enum, GoatCounter
 CTA + pre-registered threshold, Cloudflare Pages `slotmath`, risk-first build order).
 SSOT connection saved to memory. Added `.gitattributes` (LF) + explicit `.claude/`
 gitignore; created a **private** GitHub remote.
@@ -33,11 +33,12 @@ gitignore; created a **private** GitHub remote.
 private origin.
 
 **Next:** `/decompose` the risk-first build order, then build the **Day-0 walking
-skeleton** (SvelteKit static → `slotmath.lailarallc.com` with a verified Plausible
+skeleton** (SvelteKit static → `slotmath.lailarallc.com` with a verified GoatCounter
 `cta_click` event). Then precompute + commit the frozen 30-cell JSON.
 **Three manual prerequisites before Day-0 can fail-fast — do these first:**
 1. `flyctl auth login` (interactive) — needed for the precompute proxy.
-2. Create the Plausible account + add the `slotmath.lailarallc.com` domain.
+2. Create a **GoatCounter** account (goatcounter.com, free) + add the site. (Switched
+   from Plausible — paid; see DECISIONS.md 2026-08-26.)
 3. One-time Cloudflare Pages domain attach of `slotmath.lailarallc.com` (project name
    `slotmath`, Git integration OFF).
 

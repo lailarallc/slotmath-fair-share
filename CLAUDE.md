@@ -46,8 +46,9 @@ on-page conversion event. Lailara-framed, deployed to a lailarallc.com subdomain
   brand frame (`lailara-frame`), engagement-template deploy-guard. Store
   identity/region = `dim_stores` (not "store_card"). Do NOT port Void Finder
   velocity machinery.
-- Instrumentation: Plausible custom event (`cta_click`), with a pre-registered
-  iterate/kill threshold (DECISIONS.md).
+- Instrumentation: **GoatCounter** free-hosted custom event (`cta_click`, cookieless),
+  with a pre-registered iterate/kill threshold (DECISIONS.md). Switched from Plausible
+  (paid); Plausible self-hosted rejected (needs Docker+ClickHouse).
 - Hosting: **slotmath.lailarallc.com** via Cloudflare Pages (project name
   `slotmath`, not the repo name — avoids leaking "fair share").
 

@@ -85,7 +85,7 @@ retailer × region to carry a demo — or does it cluster at ~1.0?
   Costco demoted from headline, client mode described-not-built, one instrumented CTA.
 - **/plan-eng-review → 🟡 NEEDS-WORK → resolved** (2026-08-26): stack = SvelteKit
   static + bespoke SVG; freeze-and-commit data flow; first-order gap verbatim (no
-  velocity port); 3-value channel enum (club=Costco); Plausible CTA + pre-registered
+  velocity port); 3-value channel enum (club=Costco); GoatCounter CTA + pre-registered
   threshold; Cloudflare Pages (`slotmath`); risk-first build order (walking skeleton
   day 0). Full architecture cluster in DECISIONS.md 2026-08-26.
 - **Next: /decompose** the risk-first build order into individually-testable tasks,
