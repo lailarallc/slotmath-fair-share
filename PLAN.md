@@ -148,11 +148,14 @@ Steps:
       ✅ `analysis/precompute.py` → 30 cells, **$32,323,139.62** / 9,176 (canonical to the
       cent), channels club 5 / mass 5 / grocery 20, full precision (Σgap≈0 to float
       epsilon). File-replace swap confirmed: site renders real data, no code change.
-- [ ] D2: Invariant test asserting the committed JSON: sum $32,323,140, 9,176 slots, 30
+- [x] D2: Invariant test asserting the committed JSON: sum $32,323,140, 9,176 slots, 30
       cells, `Σgap$ = 0`, all 6 OVER cells non-Costco / all 5 UNDER cells Costco,
       `retail_channel` present on every cell. Wire into the CI gate.
     - Depends on: D1
     - Done when: test passes locally and in CI; flipping one cell's number fails it.
+      ✅ `scripts/check-invariants.mjs` (77 assertions incl. canon $32,323,139.62/9,176,
+      Σgap≈0, verdict↔band-bounds, UNDER⊆club/OVER∩club=∅). Negative-tested: catches a
+      tampered cell. Wired as a CI `invariant` job that `deploy` **needs**. `npm run check`.
 
 **Phase V — Views (each reads the frozen JSON; needs S1 + D1)**
 - [ ] V1: Dollarizer view — headline filters to non-club **OVER** cells (Walmart West
