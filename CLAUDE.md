@@ -21,9 +21,15 @@ views: Index (the verdict), Dollarizer (gap priced via comparable-store
 velocity), Heatmap (region × banner grid). Base form needs no new data authoring
 — it runs on the existing SSOT. Full context and open forks: see BRIEF.md.
 
-**Done (base demo) looks like:** the three views computed from SSOT data, both
-index directions shown, gap dollarized, Lailara-framed, deployed to a
-lailarallc.com subdomain.
+**Done (base demo) looks like** (revised at CEO gate — see DECISIONS.md
+2026-08-25 "Build sequence & demo scope"): a **~1-week, 2.5-view demo** built in
+value order — (1) over-shelved defensive-intel Dollarizer, (2) Index verdict +
+table, (3) Heatmap repurposed as the "which door first" qualifier map (gap-$
+color-coded). Headline leads with clean over-shelved **grocery** cells; Costco/club
+cells only behind a channel-awareness flag. Both index directions dollarized in
+comparable-store scan revenue. Client mode is a **described roadmap panel**, not
+built code (builds at first qualified engagement). One instrumented CTA is the
+on-page conversion event. Lailara-framed, deployed to a lailarallc.com subdomain.
 
 **Business question this project answers:** Is our shelf presence proportional to our sales — and what's the gap worth?
 

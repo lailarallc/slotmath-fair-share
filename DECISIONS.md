@@ -230,6 +230,70 @@ Each entry:
 
 ---
 
+## Build sequence & demo scope (CEO gate, 2026-08-25)
+
+The product gate returned **Revise** (fundable; 5 pre-build fixes). All resolved below.
+
+### 2026-08-25 — Costco/club cells demoted from the headline (channel-awareness)
+- **Why:** The widest number ($1.22M Costco West) is one we distrust as a club-channel
+  artifact (clubs carry few SKUs at huge velocity → low slot-share/high dollar-share is
+  club-normal, not a 3× expansion case). Leading a trust-building tool with a
+  walk-back-required headline is an unforced credibility hit that compounds across all 7
+  tools.
+- **Decision:** Lead Index verdict + Dollarizer with the clean over-shelved
+  **conventional-grocery** cells (Walmart West −$736k, Regional NE 1.84, Sprouts West
+  1.34). Club cells appear only behind an explicit channel-awareness flag ("club-normal —
+  not a 3× slot-expansion case"); if channel-awareness can't ship in scope, exclude club
+  cells from the headline rather than caveat in place.
+- **Do not:** headline any Costco/club figure without the channel flag.
+
+### 2026-08-25 — Build order by value; demo is 2.5 views
+- **Why:** The plan's own "one genuinely meeting-ready output" (the over-shelved
+  defensive-intel $) was buried behind Index + symmetric dollarization + a payload-free
+  Heatmap. Build the useful thing first.
+- **Decision — build order:** (1) **Over-shelved defensive-intel Dollarizer**, (2) **Index
+  verdict + table**, (3) **Heatmap** — kept, but **repurposed as the "which door first"
+  qualifier map**: region × banner grid color-coded by dollarized gap $. It stops being
+  decoration the moment it's the qualifier's map (no Spin Rate deep link needed).
+- **Scope:** "2.5-view" demo (Index, Dollarizer, payload Heatmap).
+- **Do not:** ship the Heatmap as a bare index grid with no gap-$ payload.
+
+### 2026-08-25 — Success metric: one on-page instrumented conversion event
+- **Why:** "Converts to paid syndicated engagement" is unfalsifiable on a public demo —
+  the true qualifier needs the visitor's own Circana/SPINS data, which they lack at demo
+  time. Without one instrumented event, a no-conversion post-mortem has zero data.
+- **Decision:** Add a visitor-actionable **closing state** ("sell across 3+ regions and
+  2+ banner types? your within-footprint spread is wide enough that category data moves
+  real dollars — here's what that engagement produces") + **one instrumented CTA click**
+  that names the paid engagement = the single on-page conversion event, with an
+  iterate/kill threshold. "Converts to paid engagement" stays the off-site outcome, not
+  the on-page metric.
+- **Do not:** set the shipped metric to anything the artifact can't observe.
+
+### 2026-08-25 — Client mode: describe now, build at first qualified engagement
+- **Why:** Nobody exercises client mode at demo time (needs prospect-brought
+  IRI/Circana/SPINS). Building intake for data no client has handed over is speculative
+  scope. Fleet precedent: Void Finder shipped demo-only first and grew client mode in
+  place when the need was real; the first engagement pays for building it.
+- **Decision:** Ship the demo; present client mode as a **described roadmap panel** that
+  names exactly what it will accept (IRI/Circana/SPINS extract shapes) so the promise is
+  concrete. Client-mode code builds at the first qualified engagement.
+- **Scope:** estimate drops to **~1 week** for the 2.5-view demo (gate already PASSED).
+- **Do not:** build engagement-template intake / category-fair-share compute pre-engagement.
+- **Supersedes:** the earlier "~1–1.5 weeks incl. client mode" estimate.
+
+### 2026-08-25 — Top-line framing resolves the two-identity problem
+- **Why:** The headline business question still read buyer-facing ("is our shelf presence
+  proportional") while the locked positioning is internal targeting/qualifier — an outsider
+  couldn't tell who sits in front of it.
+- **Decision:** Make the two **internal jobs** the top-line ("Which door do we push
+  first?" and "Is our spread wide enough to justify buying category data?"); the verdict
+  banner answers those. Keep the buyer-facing "fair share / proportional shelf" framing
+  explicitly labeled as the **client-mode roadmap upgrade**, not the demo's headline.
+- **Note:** aligns the artifact to the already-locked positioning; does not reopen it.
+
+---
+
 ## Reversed / Superseded
 
 When a decision is overturned:

@@ -74,12 +74,21 @@ retailer × region to carry a demo — or does it cluster at ~1.0?
 - [x] The index is computed from real SSOT data (fixture never touched)
 - [x] The distribution is characterized (11/30 outside band; widest $1.22M Costco West)
 - [x] A go decision is recorded in DECISIONS.md with the numbers
-- [x] Go → unblocked. **Next: /plan-ceo-review → /plan-eng-review → /decompose**
-      before defining the build arc.
+- [x] Go → unblocked.
 
-> **Open methodology item for /plan-eng-review + copy:** channel-awareness (club vs.
-> conventional grocery). Costco's under-shelf signal is partly a club-channel artifact;
-> don't headline it unqualified. See DECISIONS.md gate-result caveat.
+## Gate progress
+
+- data-readiness gate → ✅ PASS (2026-08-25)
+- **/plan-ceo-review → 🟡 REVISE → resolved** (2026-08-25): 5 must-fixes + 2 scope
+  calls all decided and logged in DECISIONS.md "Build sequence & demo scope."
+  Net effect: **~1-week 2.5-view demo** (Dollarizer-first, Index, payload Heatmap),
+  Costco demoted from headline, client mode described-not-built, one instrumented CTA.
+- **Next: /plan-eng-review** (resolves stack + channel-awareness implementation),
+  then /decompose, then define the build arc.
+
+> **Carried into /plan-eng-review:** (1) stack (static vs static+island); (2)
+> channel-awareness — how club vs. grocery is flagged/segmented in the index and copy;
+> (3) the Heatmap-as-qualifier-map interaction; (4) one instrumented CTA event.
 
 ---
 
