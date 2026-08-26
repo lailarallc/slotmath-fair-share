@@ -45,7 +45,12 @@ skeleton** (SvelteKit static → `slotmath.lailarallc.com` with a verified GoatC
    GoatCounter ignores localhost — verify on the deployed build only (matches the
    acceptance rule). Undercounting from blockers hits clicks and pageviews alike,
    so the threshold *rate* survives; levels read low.
-3. One-time Cloudflare Pages domain attach of `slotmath.lailarallc.com` (project name
-   `slotmath`, Git integration OFF).
+3. ✅ **DONE 2026-08-26** — Cloudflare Pages project **`slotmath`** created (Direct
+   Upload, no Git integration) with a blank placeholder deploy; `slotmath.pages.dev`
+   verified serving (no "fair-share" on any public URL). Custom domain
+   `slotmath.lailarallc.com` attached — CNAME auto-created in the zone, status
+   Initializing → check it reads **Active** before the day-0 deploy. CI deploys will
+   overwrite the placeholder via `wrangler pages deploy --project-name=slotmath`.
+   Only remaining manual prerequisite: `flyctl auth login` at build-session start.
 
 ---
