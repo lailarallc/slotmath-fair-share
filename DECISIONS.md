@@ -29,6 +29,111 @@ Each entry:
   gate: **static, or static + a small interactive island for the Heatmap only.**
 - **Scope:** global (architecture)
 - **Do not:** pick a stack silently before /plan-eng-review resolves it.
+- **RESOLVED (eng gate, 2026-08-25):** superseded by the architecture cluster below.
+  User released the reuse constraint ("choose the best tools to make it shine"), so the
+  pick is on craft, not fleet consistency — it lands on the same framework the panel named.
+
+### 2026-08-25 — Stack: SvelteKit static + bespoke SVG (eng gate)
+- **Decision:** **SvelteKit (Svelte 5) + `@sveltejs/adapter-static` + Vite**; all three
+  views as **hand-authored SVG (no charting library)** with light, purposeful motion;
+  styled to the Lailara design system. Fully static output; the Heatmap's interactivity
+  compiles away to static files (the "static vs. island" fork is a false choice).
+- **Why:** best-in-class for a small, high-polish, data-forward microsite — near-zero
+  runtime, total design control for the brand frame + 30-second read, smooth interaction.
+  Charts follow the `dataviz` skill; polish follows `ce-frontend-design` + the Deployed UI
+  gate (1440px & 375px).
+- **Alternatives considered:** Observable Framework (great for data apps, but opinionated
+  toward dashboards; fights a bespoke branded narrative + CTA funnel) — rejected;
+  React/Next static export — rejected (heavier runtime, overkill for 30 frozen cells).
+- **Do not:** add a charting lib (D3/Plotly) or any request-time compute.
+
+### 2026-08-25 — Data flow: freeze-and-commit (INVERTED from Lift Math)
+- **Decision:** SSOT (Fly Postgres, reachable only via interactive `flyctl auth` + proxy)
+  → **precompute run LOCALLY once by a human who can auth** → emit a **provenance-stamped
+  frozen JSON** (query date, window=CY2025, gate git SHA, schema-version) → **commit the
+  JSON** → CI builds the front end from the committed JSON only (no DB, no proxy, no
+  warehouse secret in CI) → deploy.
+- **Why:** Lift Math regenerates gitignored JSON in CI because its source is a pip package
+  CI can read; Slot Math's source is a live socket CI cannot reach, and the demo is a
+  frozen CY2025 snapshot with no freshness requirement. Keep a documented `make data`
+  refresh target that names the flyctl prerequisites.
+- **Do not:** wire the DB/flyctl into `build.sh` or CI — it breaks every deploy.
+
+### 2026-08-25 — Dollarization: ship the gate's first-order gap verbatim
+- **Decision:** per cell, `gap$ = (dollar_share − slot_share) × Σscan$`, **signed**
+  (+ = under-shelved / push-first; − = over-shelved / defensive-intel). Currency =
+  comparable-store scan revenue (`dollars_sold`), **no margin**. Precompute to JSON.
+  Invariant: `Σgap$ = 0`.
+- **Why:** this is the gate-validated formula. Void Finder's median-comparable-velocity
+  answers the *void* question, is strictly positive/additive, and structurally cannot
+  express the negative-gap over-shelved lead case. Reconciliation with Void Finder is
+  **dimensional** (same units), not numeric — the tools measure different things and
+  *should* differ per cell.
+- **Do not:** port Void Finder velocity machinery; do not type any dollar figure into
+  prose — every $ names basis+period ("scan revenue · CY2025 · no margin") from the frozen
+  file's metadata.
+
+### 2026-08-25 — Channel-awareness: 3-value enum tagged at compute time
+- **Decision:** tag each of the 30 cells with `retail_channel ∈ {club, mass, grocery}` at
+  precompute time. `club` = Costco only (`retailer_id == 'RET-COSTCO'`); there is **no
+  channel/format column** in the data, so this hardcoded one-retailer map is the source
+  (do NOT reuse dbt `channel_type` — that's retailer/distributor/DTC, not retail format).
+  3-value (not binary) so the headline can be honest: Walmart is **mass**, not "grocery".
+- **Front end:** headline / Index verdict default-filters to non-club **OVER** cells (lead
+  Walmart West −$736k, Regional NE 1.84, Sprouts West 1.34); all 5 Costco UNDER cells sit
+  behind the channel flag labeled "club-normal, not a 3× expansion case". Render index as a
+  **continuous value + gap$**, not only an OVER/in-band bucket (so boundary cells read as
+  "right at the line").
+- **Do not:** headline any Costco/club figure without the flag.
+
+### 2026-08-25 — Instrumentation: Plausible custom event + pre-registered threshold
+- **Decision:** Plausible custom event `cta_click`, fired once, **param-less** (no query
+  string, no selection state, no identifiers — the URL carries retailer/region/channel;
+  never send it). Cookieless, no consent banner.
+- **Pre-registered before deploy (same discipline as the data gate):**
+  `cta_click_rate = unique cta_click ÷ unique pageviews`. **Min-sample guard:** no kill
+  until ≥150 unique pageviews OR 8 weeks. **Rule:** ≥5% → funnel works, scale; 2–5% →
+  iterate the page, re-measure; <2% at min-sample → the on-page qualifier→engagement
+  hypothesis is falsified for this demo (stop optimizing; revisit whether a demo is a lead
+  source). **Acceptance:** verify the event actually records in the DEPLOYED build before
+  calling the demo done.
+- **Do not:** ship the CTA as an uninstrumented `<a href>`; do not roll a custom beacon
+  (that's request-time compute).
+
+### 2026-08-25 — Deploy: Cloudflare Pages, build-in-CI, project name `slotmath`
+- **Decision:** Cloudflare Pages via GitHub Actions (build-in-CI so no token enters the
+  build container), `wrangler pages deploy build --project-name=slotmath --branch=main`,
+  main-only, gated on the invariant + deploy-guard jobs. **Project name & subdomain =
+  `slotmath` EXPLICITLY** (not the repo name `slotmath-fair-share`). One-time **manual
+  domain attach** of `slotmath.lailarallc.com` FIRST (no committed script exists);
+  Cloudflare Git integration stays **OFF**. Vendor the engagement-template deploy-guard +
+  `lailara-frame` (css/fonts) now; ship demo config only.
+- **Why:** repo name contains the banned term — copying Lift Math's `--project-name=<repo>`
+  leaks `fair-share` onto the shared `*.pages.dev` URL before the custom domain resolves.
+- **Do not:** enable Git integration (bypasses the guard); do not rename the Pages project
+  later (orphans its host).
+
+### 2026-08-25 — Build order: RISK-first (walking skeleton before views)
+- **Decision (supersedes the CEO gate's value-order for BUILD sequencing):**
+  1. **Day-0 walking skeleton** — trivial static page off a stub JSON, deployed end-to-end
+     to `slotmath.lailarallc.com` (manual domain attach here), deploy-guard vendored, Git
+     integration OFF, and a **working instrumented CTA firing one recorded Plausible event
+     in the deployed build**. Retires stack + deploy + domain + CTA + guard on day 1.
+  2. **Freeze the data** — run the precompute locally (flyctl), emit the provenance-stamped
+     30-cell JSON (per-cell gap$, signed index, `retail_channel`), commit it.
+  3. **Invariant test** — assert JSON sums to $32,323,140, 9,176 slots, 30 cells, Σgap$=0,
+     all 6 OVER cells non-Costco / all 5 UNDER cells Costco. Wire into CI.
+  4. **View #1 — Dollarizer** (headline non-club OVER; Costco behind the flag; basis+period
+     label on every $ from JSON metadata).
+  5. **View #2 — Index verdict + table** (continuous index + gap$; 30-second layout).
+  6. **View #3 — Heatmap qualifier map** (region × banner SVG grid, gap-$ color ramp from
+     `lailara_palette`, URL-state in query params).
+  7. **Client-mode described roadmap panel** (copy authoring; names the IRI/Circana/SPINS
+     extract shapes) + final Deployed UI gate pass (1440px & 375px).
+- **Why:** the CEO value-order is right for VALUE but wrong for RISK — all three views render
+  off the same gate-validated JSON (analytic risk already retired), while the two
+  zero-precedent items (CTA, live deploy + manual domain attach) must fail fast, not on day 6
+  of a 1-week budget.
 
 ---
 

@@ -35,16 +35,21 @@ on-page conversion event. Lailara-framed, deployed to a lailarallc.com subdomain
 
 ## Stack and tools
 
-- **UNDECIDED (open question #2):** fleet Dash app vs. Lift Math static
-  precomputed pattern. No request-time compute is required either way
-  (precomputed + light front end is viable). Resolve in /clarify or
-  /office-hours before building. Do not pick a stack silently.
-- Reuse (regardless of stack): comparable-store velocity logic (Void Finder),
-  store identity/region (store_card v0.3.0), authorization matrix + scan grain
-  (SSOT, as Door Math consumes it), Lailara brand frame, engagement client-mode
-  scaffold with POS intake preflight, Lift Math URL-state conventions if the
-  stack supports them.
-- Hosting: lailarallc.com subdomain (name → subdomain decided after naming).
+- **Stack (resolved at eng gate, 2026-08-25):** SvelteKit (Svelte 5) +
+  `@sveltejs/adapter-static` + Vite; hand-authored SVG for all views (no charting
+  library); Lailara design system. Fully static output, no request-time compute.
+  Data is a frozen, provenance-stamped, committed JSON (precompute runs locally
+  once via flyctl proxy; CI never touches the DB). See DECISIONS.md 2026-08-25
+  architecture cluster for data flow, dollarization, channel-awareness,
+  instrumentation, deploy, and the risk-first build order.
+- Reuse: the gate's dollarization formula (`analysis/readiness_gate.py`), Lailara
+  brand frame (`lailara-frame`), engagement-template deploy-guard. Store
+  identity/region = `dim_stores` (not "store_card"). Do NOT port Void Finder
+  velocity machinery.
+- Instrumentation: Plausible custom event (`cta_click`), with a pre-registered
+  iterate/kill threshold (DECISIONS.md).
+- Hosting: **slotmath.lailarallc.com** via Cloudflare Pages (project name
+  `slotmath`, not the repo name — avoids leaking "fair share").
 
 ## Project files
 

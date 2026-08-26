@@ -83,12 +83,16 @@ retailer × region to carry a demo — or does it cluster at ~1.0?
   calls all decided and logged in DECISIONS.md "Build sequence & demo scope."
   Net effect: **~1-week 2.5-view demo** (Dollarizer-first, Index, payload Heatmap),
   Costco demoted from headline, client mode described-not-built, one instrumented CTA.
-- **Next: /plan-eng-review** (resolves stack + channel-awareness implementation),
-  then /decompose, then define the build arc.
+- **/plan-eng-review → 🟡 NEEDS-WORK → resolved** (2026-08-25): stack = SvelteKit
+  static + bespoke SVG; freeze-and-commit data flow; first-order gap verbatim (no
+  velocity port); 3-value channel enum (club=Costco); Plausible CTA + pre-registered
+  threshold; Cloudflare Pages (`slotmath`); risk-first build order (walking skeleton
+  day 0). Full architecture cluster in DECISIONS.md 2026-08-25.
+- **Next: /decompose** the risk-first build order into individually-testable tasks,
+  then build the ~1-week 2.5-view demo.
 
-> **Carried into /plan-eng-review:** (1) stack (static vs static+island); (2)
-> channel-awareness — how club vs. grocery is flagged/segmented in the index and copy;
-> (3) the Heatmap-as-qualifier-map interaction; (4) one instrumented CTA event.
+> All three gates passed (data ✅ / product 🟡→resolved / eng 🟡→resolved). Build is
+> unblocked. The 7 eng must-address items are folded into the DECISIONS.md build order.
 
 ---
 
