@@ -246,6 +246,11 @@ Each entry:
 - **Scope:** Heatmap / cross-tool links
 - **Do not:** build a deep link against Spin Rate today; do not add URL state to Spin
   Rate as part of Slot Math's scope.
+- **Recontextualized (2026-08-26, decompose):** the CEO reframe (demo = internal
+  targeting + engagement-qualifier; Heatmap is the "which door first" qualifier map that
+  needs no deep link) narrows this from "strongest buyer-deck slide" to **a lightweight
+  conceptual pairing** — one line of copy in F2 ("which door + which items — pair with
+  Spin Rate"). It survives, recontextualized; it is NOT dropped and NOT a deep link.
 
 ### 2026-08-25 — Dollar authority: Slot Math quotes the same currency as Void Finder
 - **Why:** Three fleet tools (Void Finder, Door Math, Slot Math) can price the same

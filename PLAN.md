@@ -96,6 +96,93 @@ retailer × region to carry a demo — or does it cluster at ~1.0?
 
 ---
 
+## Decomposition: Slot Math 2.5-view demo build
+
+Goal: ship the ~1-week 2.5-view demo (Dollarizer, Index, Heatmap) on
+`slotmath.lailarallc.com`, risk-first, off a frozen committed JSON. Full
+architecture in DECISIONS.md 2026-08-26 cluster.
+
+Grouped into phases. **S (skeleton) and D (data) are independent roots** — S goes
+first per the risk-first order; D can run alongside. Views need both.
+
+Steps:
+
+**Phase S — Walking skeleton & deploy (retire the zero-precedent risks Day 0)**
+- [ ] S1: Scaffold SvelteKit + `@sveltejs/adapter-static` + Vite; one page renders a
+      value read from a committed **stub** JSON (`data/slotmath.json` with 1 fake cell).
+    - Depends on: (none)
+    - Done when: `npm run build` emits static files to `build/` and `npm run preview`
+      shows the stub value; **the stub matches D1's exact JSON schema (same cell keys +
+      metadata shape, fake values) so the D1 swap is a file replacement, not a refactor.**
+- [ ] S2: Add the GoatCounter script to `app.html` and a CTA `<a>` whose click handler
+      fires `window.goatcounter.count({ path: 'cta_click', event: true })`; vendor the
+      engagement-template deploy-guard as a pre-push hook.
+    - Depends on: S1
+    - Done when: locally, clicking the CTA calls `count(...)` (verify in devtools
+      Network → request to `lailara.goatcounter.com/count`); pre-push hook runs.
+- [ ] S3: GitHub Actions job — build-in-CI (no token in build container) →
+      `wrangler pages deploy build --project-name=slotmath --branch=main`; Git
+      integration stays OFF.
+    - Depends on: S2
+    - Done when: `slotmath.lailarallc.com` serves the skeleton AND one `cta_click`
+      event records in GoatCounter from the **deployed** build (adblocker OFF; localhost
+      is ignored by design).
+
+**Phase D — Freeze the data**
+- [ ] D1: Adapt `analysis/readiness_gate.py`'s aggregation into a precompute that emits
+      the 30-cell JSON — per cell: retailer, region, slots, dollars, slot_share,
+      dollar_share, signed index, `gap_$`, **`retail_channel` ∈ {club,mass,grocery}**
+      (club = Costco) — plus metadata (query date, window=CY2025, gate git SHA,
+      schema-version). Run locally via flyctl proxy; commit the JSON.
+    - Depends on: (none; needs flyctl auth + proxy)
+    - Done when: `data/slotmath.json` is committed with 30 cells + metadata and totals
+      = $32,323,140 / 9,176 slots.
+- [ ] D2: Invariant test asserting the committed JSON: sum $32,323,140, 9,176 slots, 30
+      cells, `Σgap$ = 0`, all 6 OVER cells non-Costco / all 5 UNDER cells Costco,
+      `retail_channel` present on every cell. Wire into the CI gate.
+    - Depends on: D1
+    - Done when: test passes locally and in CI; flipping one cell's number fails it.
+
+**Phase V — Views (each reads the frozen JSON; needs S1 + D1)**
+- [ ] V1: Dollarizer view — headline filters to non-club **OVER** cells (Walmart West
+      −$736k, Regional NE 1.84, Sprouts West 1.34); Costco UNDER cells behind the
+      "club-normal, not a 3× expansion case" flag; every $ labeled basis+period from
+      JSON metadata; both directions shown. **The over-shelved list cross-links to the
+      SKU Rationalization tool ("fix-or-kill is the prepared answer").**
+    - Depends on: S1, D1
+    - Done when: renders the OVER grocery/mass cells with gap$, Costco hidden behind a
+      toggle, the over-shelved list links to SKU Rationalization, legible at 1440px & 375px.
+- [ ] V2: Index verdict + table — one banner line, one chart, per-cell table; continuous
+      index value + gap$ (not just OVER/in-band bucket).
+    - Depends on: S1, D1
+    - Done when: 30-second-rule layout renders; a boundary cell (Kroger SE 1.299) reads
+      "right at the line", at 1440px and 375px.
+- [ ] V3: Heatmap qualifier map — region × banner SVG grid, gap-$ colour ramp from
+      `lailara_palette`, channel toggle, filter state in URL query params.
+    - Depends on: S1, D1
+    - Done when: grid renders; changing a filter updates the URL and a reload restores
+      the same view; legible at 1440px and 375px.
+
+**Phase F — Finish & integrate**
+- [ ] F1: Client-mode **described** roadmap panel — copy naming the IRI/Circana/SPINS
+      extract shapes it will accept. No client-mode code.
+    - Depends on: S1
+    - Done when: panel renders with concrete extract-shape copy; nothing computes.
+- [ ] F2: Full Lailara brand frame + copy/voice pass + the CTA closing state ("sell
+      across 3+ regions and 2+ banner types? …") wired to the pre-registered metric.
+      **Include one line of Spin Rate visual-pairing copy** (conceptual reference — which
+      door + which items — no deep link; see DECISIONS 2026-08-26 recontextualization).
+    - Depends on: V1, V2, V3, F1
+    - Done when: passes the Deployed UI gate at 1440px and 375px; CTA closing state
+      present; the Spin Rate pairing line is on the page.
+- [ ] B (integration): final deploy with all views; confirm the domain is Active and the
+      GoatCounter `cta_click` event records on production; CI invariant test green.
+    - Depends on: S3, D2, F2
+    - Done when: `slotmath.lailarallc.com` serves the full 2.5-view demo, one production
+      `cta_click` records, and the invariant CI job is green.
+
+---
+
 ## Arc history
 
 When an arc completes, archive its goal, completion date, and outcome
