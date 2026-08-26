@@ -29,11 +29,11 @@ Each entry:
   gate: **static, or static + a small interactive island for the Heatmap only.**
 - **Scope:** global (architecture)
 - **Do not:** pick a stack silently before /plan-eng-review resolves it.
-- **RESOLVED (eng gate, 2026-08-25):** superseded by the architecture cluster below.
+- **RESOLVED (eng gate, 2026-08-26):** superseded by the architecture cluster below.
   User released the reuse constraint ("choose the best tools to make it shine"), so the
   pick is on craft, not fleet consistency — it lands on the same framework the panel named.
 
-### 2026-08-25 — Stack: SvelteKit static + bespoke SVG (eng gate)
+### 2026-08-26 — Stack: SvelteKit static + bespoke SVG (eng gate)
 - **Decision:** **SvelteKit (Svelte 5) + `@sveltejs/adapter-static` + Vite**; all three
   views as **hand-authored SVG (no charting library)** with light, purposeful motion;
   styled to the Lailara design system. Fully static output; the Heatmap's interactivity
@@ -47,7 +47,7 @@ Each entry:
   React/Next static export — rejected (heavier runtime, overkill for 30 frozen cells).
 - **Do not:** add a charting lib (D3/Plotly) or any request-time compute.
 
-### 2026-08-25 — Data flow: freeze-and-commit (INVERTED from Lift Math)
+### 2026-08-26 — Data flow: freeze-and-commit (INVERTED from Lift Math)
 - **Decision:** SSOT (Fly Postgres, reachable only via interactive `flyctl auth` + proxy)
   → **precompute run LOCALLY once by a human who can auth** → emit a **provenance-stamped
   frozen JSON** (query date, window=CY2025, gate git SHA, schema-version) → **commit the
@@ -59,7 +59,7 @@ Each entry:
   refresh target that names the flyctl prerequisites.
 - **Do not:** wire the DB/flyctl into `build.sh` or CI — it breaks every deploy.
 
-### 2026-08-25 — Dollarization: ship the gate's first-order gap verbatim
+### 2026-08-26 — Dollarization: ship the gate's first-order gap verbatim
 - **Decision:** per cell, `gap$ = (dollar_share − slot_share) × Σscan$`, **signed**
   (+ = under-shelved / push-first; − = over-shelved / defensive-intel). Currency =
   comparable-store scan revenue (`dollars_sold`), **no margin**. Precompute to JSON.
@@ -73,7 +73,7 @@ Each entry:
   prose — every $ names basis+period ("scan revenue · CY2025 · no margin") from the frozen
   file's metadata.
 
-### 2026-08-25 — Channel-awareness: 3-value enum tagged at compute time
+### 2026-08-26 — Channel-awareness: 3-value enum tagged at compute time
 - **Decision:** tag each of the 30 cells with `retail_channel ∈ {club, mass, grocery}` at
   precompute time. `club` = Costco only (`retailer_id == 'RET-COSTCO'`); there is **no
   channel/format column** in the data, so this hardcoded one-retailer map is the source
@@ -86,7 +86,7 @@ Each entry:
   "right at the line").
 - **Do not:** headline any Costco/club figure without the flag.
 
-### 2026-08-25 — Instrumentation: Plausible custom event + pre-registered threshold
+### 2026-08-26 — Instrumentation: Plausible custom event + pre-registered threshold
 - **Decision:** Plausible custom event `cta_click`, fired once, **param-less** (no query
   string, no selection state, no identifiers — the URL carries retailer/region/channel;
   never send it). Cookieless, no consent banner.
@@ -100,7 +100,7 @@ Each entry:
 - **Do not:** ship the CTA as an uninstrumented `<a href>`; do not roll a custom beacon
   (that's request-time compute).
 
-### 2026-08-25 — Deploy: Cloudflare Pages, build-in-CI, project name `slotmath`
+### 2026-08-26 — Deploy: Cloudflare Pages, build-in-CI, project name `slotmath`
 - **Decision:** Cloudflare Pages via GitHub Actions (build-in-CI so no token enters the
   build container), `wrangler pages deploy build --project-name=slotmath --branch=main`,
   main-only, gated on the invariant + deploy-guard jobs. **Project name & subdomain =
@@ -113,7 +113,7 @@ Each entry:
 - **Do not:** enable Git integration (bypasses the guard); do not rename the Pages project
   later (orphans its host).
 
-### 2026-08-25 — Build order: RISK-first (walking skeleton before views)
+### 2026-08-26 — Build order: RISK-first (walking skeleton before views)
 - **Decision (supersedes the CEO gate's value-order for BUILD sequencing):**
   1. **Day-0 walking skeleton** — trivial static page off a stub JSON, deployed end-to-end
      to `slotmath.lailarallc.com` (manual domain attach here), deploy-guard vendored, Git

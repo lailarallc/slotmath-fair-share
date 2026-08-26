@@ -33,6 +33,28 @@ quarto" or "scope, scrollytelling, decoration"]
 
 [New entries get added here, most recent at the top]
 
+### 2026-08-25 — Gate script printed to Windows cp1252 console and crashed on Unicode
+
+**Attempted:** `analysis/readiness_gate.py` printed a report with `→`, `✅`, `×` etc.
+
+**Why it didn't work:** Windows Python defaults stdout to cp1252; `UnicodeEncodeError`
+on the first non-ASCII char after connecting + querying fine. **Fixed:**
+`sys.stdout.reconfigure(encoding="utf-8")` at entry. **Recurs tomorrow** — the precompute
+is a fresh script over the same console; add the reconfigure line first, or emit ASCII.
+
+**Status:** Resolved  · **Tags:** windows, cp1252, unicode, stdout, encoding, python
+
+### 2026-08-25 — Gate script connected to the wrong Postgres port
+
+**Attempted:** Ran the gate with `flyctl proxy 5433:5432`; the script connected to 5432.
+
+**Why it didn't work:** `load_env()` reads `POSTGRES_PROXY_PORT` from the SSOT `.env`
+(=5432) before its own default, so it ignored the running proxy on 5433 → connection
+refused. **Fixed:** `export SLOTMATH_PG_PORT=5433` to override. **Recurs tomorrow** — set
+`SLOTMATH_PG_PORT` to match the proxy port every run, or start the proxy on 5432.
+
+**Status:** Resolved  · **Tags:** flyctl, proxy, port, postgres, env, connection
+
 ### 2026-08-25 — Brief cited fixture-authored spread as readiness evidence (corrected)
 
 **Attempted:** The brief claimed "Door Math's authorization-to-scan gaps suggest

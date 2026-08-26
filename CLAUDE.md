@@ -35,11 +35,11 @@ on-page conversion event. Lailara-framed, deployed to a lailarallc.com subdomain
 
 ## Stack and tools
 
-- **Stack (resolved at eng gate, 2026-08-25):** SvelteKit (Svelte 5) +
+- **Stack (resolved at eng gate, 2026-08-26):** SvelteKit (Svelte 5) +
   `@sveltejs/adapter-static` + Vite; hand-authored SVG for all views (no charting
   library); Lailara design system. Fully static output, no request-time compute.
   Data is a frozen, provenance-stamped, committed JSON (precompute runs locally
-  once via flyctl proxy; CI never touches the DB). See DECISIONS.md 2026-08-25
+  once via flyctl proxy; CI never touches the DB). See DECISIONS.md 2026-08-26
   architecture cluster for data flow, dollarization, channel-awareness,
   instrumentation, deploy, and the risk-first build order.
 - Reuse: the gate's dollarization formula (`analysis/readiness_gate.py`), Lailara

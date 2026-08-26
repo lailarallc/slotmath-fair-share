@@ -30,6 +30,11 @@ credentials.*
 # *.sqlite
 # data/raw/
 
+# Local Claude tooling — regenerable from the workflow-package; kept OUT of the
+# repo (decision, wrap 2026-08-26). Made explicit here so it doesn't depend on a
+# machine's global gitignore. Force-add later if project commands should travel.
+.claude/
+
 # OS
 .DS_Store
 Thumbs.db

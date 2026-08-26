@@ -9,17 +9,36 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
-## YYYY-MM-DD HH:MM — Project initialized
+## 2026-08-26 10:14 — All three planning gates passed; architecture locked
 
-**Started from:** New project setup.
+**Started from:** Empty `slotmath-fair-share` dir + a pasted brainstorm brief for the
+7th Cinderhaven tool ("Fair Share"), to run through the project process.
 
-**Did:** Created repo, set up CLAUDE.md/DECISIONS.md/HANDOFF.md/PLAN.md/
-FAILURES.md, configured slash commands, ran 95% confidence prompt
-in chat.
+**Did:** Scaffolded (init, git, docs, `BRIEF.md`). **/clarify** → name **Slot Math** + 5
+forks + pre-registered gate rules. **/office-hours** (11-agent panel grounded on real
+repos) → 🟡; caught 3 brief errors; repositioned demo as internal targeting +
+engagement-qualifier. **Built + ran the data-readiness gate** on the real SSOT (flyctl
+proxy; Docker broken) → ✅ **PASS** (11/30 cells outside band, $1.22M Costco West, sanity
+$32.3M CY2025 to the dollar). **/plan-ceo-review** → Revise → ~1-week 2.5-view demo,
+Costco demoted, client mode described-not-built, one CTA. **/plan-eng-review** →
+Needs-work → architecture locked (SvelteKit adapter-static + bespoke SVG,
+freeze-and-commit data flow, first-order gap verbatim, 3-value channel enum, Plausible
+CTA + pre-registered threshold, Cloudflare Pages `slotmath`, risk-first build order).
+SSOT connection saved to memory. Added `.gitattributes` (LF) + explicit `.claude/`
+gitignore; created a **private** GitHub remote.
 
-**State:** Foundation in place. PLAN.md arc defined. Ready to begin
-work.
+**State:** All 3 gates passed. Architecture fully specified in DECISIONS.md
+(2026-08-26 cluster). Only code so far: `analysis/readiness_gate.py` + committed
+`analysis/output/readiness_gate.csv`. No app code. Clean tree after wrap; pushed to
+private origin.
 
-**Next:** [First task from PLAN.md]
+**Next:** `/decompose` the risk-first build order, then build the **Day-0 walking
+skeleton** (SvelteKit static → `slotmath.lailarallc.com` with a verified Plausible
+`cta_click` event). Then precompute + commit the frozen 30-cell JSON.
+**Three manual prerequisites before Day-0 can fail-fast — do these first:**
+1. `flyctl auth login` (interactive) — needed for the precompute proxy.
+2. Create the Plausible account + add the `slotmath.lailarallc.com` domain.
+3. One-time Cloudflare Pages domain attach of `slotmath.lailarallc.com` (project name
+   `slotmath`, Git integration OFF).
 
 ---
