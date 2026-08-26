@@ -19,6 +19,12 @@ __pycache__/
 .venv/
 venv/
 
+# Node / SvelteKit
+node_modules/
+/build
+/.svelte-kit
+/package-lock.json.bak
+
 # Environment and secrets
 .env
 *.env

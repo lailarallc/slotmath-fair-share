@@ -108,8 +108,9 @@ first per the risk-first order; D can run alongside. Views need both.
 Steps:
 
 **Phase S — Walking skeleton & deploy (retire the zero-precedent risks Day 0)**
-- [ ] S1: Scaffold SvelteKit + `@sveltejs/adapter-static` + Vite; one page renders a
+- [x] S1: Scaffold SvelteKit + `@sveltejs/adapter-static` + Vite; one page renders a
       value read from a committed **stub** JSON (`data/slotmath.json` with 1 fake cell).
+      ✅ Built; stub renders into `build/index.html`; schema frozen (DECISIONS 2026-08-26).
     - Depends on: (none)
     - Done when: `npm run build` emits static files to `build/` and `npm run preview`
       shows the stub value; **the stub matches D1's exact JSON schema (same cell keys +

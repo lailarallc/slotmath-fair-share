@@ -328,6 +328,32 @@ Each entry:
 - **Do not:** cite `CINDERHAVEN_CANONICAL.md` values (retired pointer); print a bare
   total without basis+period.
 
+### 2026-08-26 — Frozen JSON data contract (`data/slotmath.json`, S1/D1)
+- **Decision:** one committed file is the single source for all three views + the D2
+  invariant. Shape:
+  - `metadata`: `query_date`, `window` ("CY2025"), `window_start` (2024-12-28),
+    `window_end` (2025-12-27), `gate_git_sha`, `schema_version`, `total_slots` (9176),
+    `total_dollars` (32323140.xx, full precision), `band_lower` (0.7), `band_upper`
+    (1.3), `gap_sign` (documented convention), `basis` (display), `basis_note`
+    (provenance).
+  - `cells[30]`: `retailer`, `region`, `retail_channel ∈ {club,mass,grocery}`, `slots`,
+    `dollars`, `slot_share`, `dollar_share`, `index`, `gap_dollars`, `verdict`.
+- **Four rules (from schema-freeze review):**
+  1. **Store full precision** — `dollars`/`gap_dollars` at 2 decimals (as the gate CSV),
+     `slot_share`/`dollar_share`/`index` at full float. **Round only in the view layer.**
+     The D2 invariant is **exact** (Σdollars = 32323140.xx, Σgap = 0), never toleranced.
+  2. **Bounds live in metadata** (`band_lower`/`band_upper`) — views and D2 read them;
+     never hardcode 0.7/1.3 in view code.
+  3. **Sign convention documented in the file** (`gap_sign`: "positive = under-shelved
+     (expansion $); negative = over-shelved"); views must never re-derive it.
+  4. **Basis is split** — `basis` = "retail scan revenue (CY2025)" (printable, public);
+     `basis_note` = "revenue basis, no margin step — fleet Dollar Authority decision"
+     (provenance only). "no margin" is internal methodology language — never a public label.
+- **Naming:** `gap_dollars` (not `gap_$`). `units` from the gate CSV is **dropped** — no
+  view or D2 reads it.
+- **Do not:** round in the file; hardcode band bounds or the sign in a view; print
+  `basis_note` on a public surface.
+
 ---
 
 ## Output Formats
