@@ -123,16 +123,18 @@ Steps:
       Network → request to `lailara.goatcounter.com/count`); pre-push hook runs.
       ✅ Script + CTA in built HTML; guards no-op; hook active (`core.hooksPath`). The
       network *send* is localhost-suppressed by GoatCounter — verified on deploy (S3).
-- [ ] S3: GitHub Actions job — build-in-CI (no token in build container) →
+- [x] S3: GitHub Actions job — build-in-CI (no token in build container) →
       `wrangler pages deploy build --project-name=slotmath --branch=main`; Git
       integration stays OFF.
     - Depends on: S2
     - Done when: `slotmath.lailarallc.com` serves the skeleton AND one `cta_click`
       event records in GoatCounter from the **deployed** build (adblocker OFF; localhost
       is ignored by design).
-    - **In progress:** `.github/workflows/deploy.yml` written (adapted from Lift Math);
-      `CLOUDFLARE_ACCOUNT_ID` secret set. **Blocked on `CLOUDFLARE_API_TOKEN`** (user
-      adds it → Code pushes → first run deploys). Then verify the event on the deployed build.
+    - ✅ **Deployed green** (run 33016551058, 39s) from `lailarallc/slotmath-fair-share`
+      using **org secrets** (repo migrated into the org). `slotmath.lailarallc.com` →
+      HTTP 200, renders skeleton + GoatCounter script + CTA. `workflow_dispatch` added.
+    - **One manual check left (yours):** open the live site adblocker-OFF, click the CTA,
+      confirm one `cta_click` in the GoatCounter dashboard. Then S3 is fully closed.
 
 **Phase D — Freeze the data**
 - [ ] D1: Adapt `analysis/readiness_gate.py`'s aggregation into a precompute that emits
