@@ -201,7 +201,13 @@ Steps:
       all tiers match frozen JSON; toggle click updates URL + grid; back button restores
       prior filter; deep-link/reload restores filtered view; 375px = 0 page overflow, table
       fits (327px, no wall), chips dropped; no console/hydration errors; 77 invariants hold.
-      ⏳ Aesthetic eyeball pending user — pane can't screenshot this session (same as V2).
+      ✅ **User QA passed on prod (2026-08-27):** 30 tiles exact + signs + shading (incl. the
+      Kroger SE −$382K-but-in-band grey call), URL round-trip (filter/back/deep-load) clean,
+      1440 legible + Economist voice, club footnote drops in grocery view. 375 accepted on
+      Code's DOM verification (0 overflow, 327px) — no mobile pixels this session (screenshots
+      down; user's capture path can't resize a maximized window). One F2 cosmetic candidate
+      logged (filter-reactive headline). Deployed green: run 33092368590, invariant + deploy
+      both success.
 
 **Phase F — Finish & integrate**
 - [ ] F1: Client-mode **described** roadmap panel — copy naming the IRI/Circana/SPINS
@@ -212,6 +218,15 @@ Steps:
 > - Mobile card-stack for the dollar tables (each cell a stacked card, $ visible without
 >   horizontal scroll). Not built now — the hero delivers the headline $ without scroll,
 >   so nothing's broken; building it today is speculative scope.
+> - **Filter-reactive V3 heatmap headline** (user QA 2026-08-27, cosmetic — not a defect).
+>   The heatmap headline is hard-wired to the global hero (Walmart West −$736K), but the
+>   intro copy invites "the clean grocery story"; when filtered to Grocery, headline and
+>   copy disagree. Fix: derive the headline cell from the *visible* channel's top
+>   over-shelved cell (grocery → Sprouts West −$178K), so the lead tracks the filter.
+>   `hero` today = global `over[0]`; make it `$derived` off `visibleBanners`/`channel`,
+>   pick the max-|gap| OVER cell among visible banners, fall back to global hero when the
+>   filter yields no OVER cell (e.g. Club → keep an under-shelved-framed line or the
+>   channel-awareness note). Copy stays honest in every filter state. Cosmetic; not urgent.
 
 - [ ] F2: Full Lailara brand frame + copy/voice pass + the CTA closing state ("sell
       across 3+ regions and 2+ banner types? …") wired to the pre-registered metric.
