@@ -201,10 +201,14 @@
 	.table-scroll { overflow-x: auto; }
 	.dollar-table {
 		width: 100%;
+		/* Below this the table scrolls inside .table-scroll rather than crushing the
+		   first column (mobile). Wide content scrolls in its container; body never does. */
+		min-width: 460px;
 		border-collapse: collapse;
 		font-family: var(--ll-sans);
 		font-size: 15px;
 	}
+	.rr { white-space: nowrap; }
 	.dollar-table th, .dollar-table td {
 		padding: 12px 12px;
 		border-bottom: 1px solid var(--ll-london-85);
