@@ -109,6 +109,14 @@ Each entry:
   calling the demo done.
 - **Do not:** ship the CTA as an uninstrumented `<a href>`; do not roll a custom beacon
   (that's request-time compute); do not add cookies or a consent banner.
+- **Cloudflare Web Analytics auto-injection MUST stay OFF (2026-08-26):** Cloudflare
+  edge-injects `static.cloudflareinsights.com/beacon.min.js` into the page — a **second
+  tracker** the single-tracker, cookieless posture never sanctioned (verified injected on
+  the live site 2026-08-26). Disable per Pages project: **Settings → Web Analytics → off**.
+  Not disable-able from repo code or the CLI without Cloudflare dashboard/token access —
+  it's a dashboard action. Re-check after any new Pages project.
+- **Acceptance MET (2026-08-26):** live CTA click → POST `lailara.goatcounter.com/count?p=cta_click`
+  → 200, event dashboard-confirmed; pageviews recording. S3 acceptance criterion closed.
 
 ### 2026-08-26 — Deploy: Cloudflare Pages, build-in-CI, project name `slotmath`
 - **Decision:** Cloudflare Pages via GitHub Actions (build-in-CI so no token enters the
