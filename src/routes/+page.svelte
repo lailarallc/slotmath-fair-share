@@ -92,8 +92,8 @@
 		</div>
 		<p class="footnote">
 			Basis: retail scan revenue (CY2025). Over-covered = the scan-revenue scale by which a
-			cell's share of authorized slots exceeds its share of scan dollars (index above
-			{idx(m.band_upper)}). Cinderhaven Provisions, a synthetic dataset.
+			cell's share of authorized slots exceeds its share of scan dollars (above the
+			{m.band_upper} band). Cinderhaven Provisions, a synthetic dataset.
 		</p>
 
 		<!-- SKU Rationalization cross-link -->
@@ -155,7 +155,7 @@
 	<!-- CTA / engagement ───────────────────────────────────────────────────── -->
 	<section id="engagement" class="block cta-block">
 		<a class="cta" href="#engagement" onclick={fireCta}>See what the paid category engagement adds</a>
-		<p class="cta-note">Client-mode roadmap panel — built in F1.</p>
+		<p class="cta-note">Client mode — roadmap panel, coming.</p>
 	</section>
 </div>
 
