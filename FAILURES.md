@@ -33,6 +33,47 @@ quarto" or "scope, scrollytelling, decoration"]
 
 [New entries get added here, most recent at the top]
 
+### 2026-08-26 — Browser-pane screenshots wouldn't composite (most of the session)
+
+**Attempted:** `computer{action:"screenshot"}` to visually QA V1/V2 at 1440px and 375px.
+
+**Why it didn't work:** "the Browser pane is not displayed, so the page is not compositing
+frames." One fresh-tab capture succeeded early; every later attempt (fresh tabs included)
+timed out. Environment/display issue, not the site.
+
+**What we tried instead:** `javascript_tool` DOM + `getComputedStyle` checks — conclusive
+on structure, data, and responsive behavior (table widths, `display:none`, body
+overflow). Handed the aesthetic-only eyeball to the user, who screenshots reliably.
+
+**Status:** Resolved (workaround) · **Tags:** browser, screenshot, compositing, qa, javascript_tool, dom
+
+### 2026-08-26 — First S3 deploy failed: org secret invisible to a personal repo
+
+**Attempted:** Deploy slotmath (still `MsShawnP/slotmath-fair-share`, personal) after the
+token was set as a `lailarallc` **org** secret.
+
+**Why it didn't work:** Org secrets only reach repos **inside** that org. A personal-account
+repo can't read an org secret, so the credential guard failed fast ("CLOUDFLARE_API_TOKEN
+is not set"). The guard worked — the token was in the wrong scope.
+
+**What we tried instead:** Migrated slotmath into the `lailarallc` org; org secrets
+(ALL-repos, Team plan) then resolved and it deployed green.
+
+**Status:** Resolved · **Tags:** github, org-secrets, cloudflare, deploy, personal-vs-org, ci
+
+### 2026-08-26 — Invariant negative-test /tmp backup broke on Windows
+
+**Attempted:** In the D2 tamper-test, back up `data/slotmath.json` to `/tmp/sm.bak` (Python
+`shutil.copy`) then restore with git-bash `cp /tmp/sm.bak`.
+
+**Why it didn't work:** Windows Python resolves `/tmp` to `C:\tmp`; git-bash `/tmp` is a
+different path. The restore couldn't find the backup and the data was left tampered.
+
+**What we tried instead:** `git checkout -- data/slotmath.json` (the committed version is
+the source of truth). Lesson: restore committed files via git, not a hand-rolled /tmp copy.
+
+**Status:** Resolved · **Tags:** windows, tmp, git-bash, python, path, negative-test
+
 ### 2026-08-25 — Gate script printed to Windows cp1252 console and crashed on Unicode
 
 **Attempted:** `analysis/readiness_gate.py` printed a report with `→`, `✅`, `×` etc.

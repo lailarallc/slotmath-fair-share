@@ -358,7 +358,17 @@ Each entry:
 
 ## Output Formats
 
-[Decisions about deliverable formats, structure, organization]
+### 2026-08-26 — Single scrolling page + sticky sub-nav (not a tab SPA)
+- **Why:** The three views (Dollarizer / Index / Heatmap) are sections of one prerendered
+  page with a sticky sub-nav (anchor links) + stub sections for not-yet-built views. Chosen
+  over a client-side tab SPA to avoid speculative routing machinery, keep prerendering
+  trivial, and ship focused per-section reads. Rejected: tabbed `?view=` SPA (more machinery
+  than a ~1-week demo needs).
+- **Scope:** front-end structure
+- **Do not:** add a dangling anchor to a not-yet-built section (SvelteKit prerender fails on
+  it) — add a stub section first, as `#engagement` and `#heatmap` do.
+- **Revisit:** confirm this vs. tabs before V3's Heatmap URL-state work cements it (the
+  Heatmap's region/banner filters are the one place query-param state is genuinely needed).
 
 ---
 

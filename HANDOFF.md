@@ -9,6 +9,33 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-08-26 22:03 — Built S1–S3 + D1–D2 + V1–V2; slotmath in the org, deploying live
+
+**Started from:** All planning gates passed; next = `/decompose`.
+
+**Did:** `/decompose` → 11-task risk-first plan. Built the **walking skeleton** (S1
+SvelteKit static + frozen-JSON schema, S2 GoatCounter CTA + deploy-guard, S3 Cloudflare
+Pages CI). **Fleet org-secret migration side-quest:** read-only inventory (~40 repos, 4
+shared secrets), you created the **`lailarallc` org (Team plan)** and batch-migrated repos;
+slotmath moved in and deploys via **org secrets**; plan lives in the new `fleet-ops` repo.
+**D1** precompute → frozen 30-cell `data/slotmath.json` (real SSOT via flyctl proxy, full
+precision). **D2** Node invariant gate wired into CI (gates deploy). **V1** Dollarizer
+(over-shelved defensive intel) + vendored Lailara frame; 2 nits + mobile table fix. **V2**
+Index view (verdict banner + KPIs + SVG distribution strip + 30-cell table); restructured
+to a single scrolling page + sticky sub-nav + `#heatmap` stub.
+
+**State:** `slotmath.lailarallc.com` live (Dollarizer + Index, sub-nav, CTA), deploying
+green from the org, D2 gating CI. V1 fully verified (desktop + mobile). V2 verified by DOM
+(structure + responsive); aesthetic eyeball pending. Not built: V3 (Heatmap — stub), F1
+(client-mode panel), F2 (frame finalize + CTA closing state), B (integration).
+
+**Next:** **V3 — Heatmap qualifier map** (region × banner grid, gap-$ ramp from
+`lailara_palette`, URL-state filters) to fill `#heatmap`. Open items: your aesthetic
+eyeball on V2 (strip/KPI polish); confirm single-scrolling-page vs tabs before V3 cements
+it; one manual GoatCounter `cta_click` verify on the deployed build (adblocker off); flyctl
+re-login if precompute is re-run. **NOTE: screenshots wouldn't composite this session —
+verify UI via `javascript_tool` DOM/computed-style, or have the user screenshot.**
+
 ## 2026-08-26 10:14 — All three planning gates passed; architecture locked
 
 **Started from:** Empty `slotmath-fair-share` dir + a pasted brainstorm brief for the
