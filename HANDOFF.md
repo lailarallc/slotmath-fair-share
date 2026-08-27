@@ -40,8 +40,16 @@ precompute is re-run. **NOTE: screenshots wouldn't composite this session — ve
 show 3 decimals + "at the line" near a band bound (Kroger SE 1.299 / Sprouts SE 1.301);
 "Built in V3" task-id removed from the heatmap stub. **GoatCounter beacon VERIFIED** — a
 real `count()` beacon reaches `lailara.goatcounter.com/count?...&e=true` from prod (proven
-via the resource timeline; fired as `verify_beacon` to keep `cta_click` clean). Remaining:
-user confirms the event in the GoatCounter dashboard (only thing not visible headlessly).
+via the resource timeline; fired as `verify_beacon` to keep `cta_click` clean).
+
+**Closed 2026-08-26 (user-confirmed):** live CTA click → POST `cta_click` → 200, event in
+the GoatCounter dashboard, pageviews recording. **S3 acceptance MET.** V2 pixels pass (user
+QA — strip chart, KPIs, boundary rows, neutral V3 placeholder; no changes).
+
+**ONE open user-action:** Cloudflare edge-injects a second tracker
+(`static.cloudflareinsights.com/beacon.min.js`, verified on the live page). Disable it:
+Cloudflare → **slotmath** project → Settings → **Web Analytics → off** (dashboard-only; not
+doable from repo/CLI). Then Code re-verifies the beacon is gone. See DECISIONS 2026-08-26.
 
 ## 2026-08-26 10:14 — All three planning gates passed; architecture locked
 
