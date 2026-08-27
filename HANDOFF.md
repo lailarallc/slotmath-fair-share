@@ -9,6 +9,39 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-08-27 14:20 — Shipped V3 + F1; Cloudflare rule corrected; deploy migrated to org workflow
+
+**Started from:** Prior session shipped S1–S3, D1–D2, V1–V2, site live and green; one open
+item was a Cloudflare edge-injected tracker. Opened on "what is next."
+
+**Did:**
+- Corrected the Cloudflare tracker rule — the injector was **zone-level** Web Analytics RUM
+  on the `lailarallc.com` zone (fleet-wide), **not** the per-Pages-project toggle; DECISIONS
+  rewritten to guard the real mechanism (`6c929a9`). You disabled it fleet-wide; beacon gone.
+- Built **V3 Heatmap** (`29e3f09`): banner × region **HTML table** (not raw SVG — tabular
+  form), gap-$ diverging ramp reusing V1/V2 verdict semantics, channel toggle with filter in
+  the URL (anchor links + `afterNavigate`). QA-passed on prod (numbers, URL round-trip, back
+  button, 1440; 375 on DOM).
+- Amended the stack DECISION to match the build: SVG for continuous geometry, semantic HTML
+  for tabular (`bf847ca`). Logged an F2 candidate (filter-reactive heatmap headline).
+- Housekeeping: committed the bridge note in-session, ticked stale V1 checkbox (`773d257`).
+- Built **F1 roadmap panel** (`93fc43b` → merged `4b54fe0`): `#roadmap` section framing the
+  within-footprint → true category Fair Share upgrade; three IRI/Circana/SPINS extract-shape
+  cards; pure copy, nothing computes. Deployed green.
+
+**State:** All 2.5 views + roadmap live and green at slotmath.lailarallc.com. Deploy **migrated
+mid-session** to your org reusable workflow (your commit `d840226`: invariant → build+upload →
+reusable deploy); F1 was its first content run, all jobs green. 77 invariants hold. Tree clean.
+Untouched: F2, B.
+
+**Next:** **F2** — brand-frame finalize + copy/voice pass + CTA closing state (wired to the
+pre-registered metric) + one Spin Rate visual-pairing line; must pass the Deployed UI gate at
+1440 & 375. Decide the filter-reactive-headline candidate here. Then **B** (integration). Start
+F2 fresh — it's the full-page judgment pass. **Tracked:** the 2026-08-26 entry below still names
+the wrong Cloudflare mechanism (corrected inline; superseded by this entry + DECISIONS).
+
+---
+
 ## 2026-08-27 — Bridge note (written by Cowork advisor; prior session ended without /wrap)
 
 **State:** V3 (Heatmap qualifier map) is BUILT, DEPLOYED, and QA-PASSED on prod
@@ -70,6 +103,10 @@ QA — strip chart, KPIs, boundary rows, neutral V3 placeholder; no changes).
 (`static.cloudflareinsights.com/beacon.min.js`, verified on the live page). Disable it:
 Cloudflare → **slotmath** project → Settings → **Web Analytics → off** (dashboard-only; not
 doable from repo/CLI). Then Code re-verifies the beacon is gone. See DECISIONS 2026-08-26.
+> **[Corrected 2026-08-27]** The mechanism above is WRONG — the injector was **zone-level**
+> Web Analytics RUM on the `lailarallc.com` zone (fleet-wide), not the per-Pages-project
+> toggle (which was already off). Fixed fleet-wide via Cloudflare → Web Analytics → Manage
+> site → Disable. See the 2026-08-27 entry above + corrected DECISIONS 2026-08-26.
 
 ## 2026-08-26 10:14 — All three planning gates passed; architecture locked
 

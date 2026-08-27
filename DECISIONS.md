@@ -57,6 +57,24 @@ Each entry:
   React/Next static export — rejected (heavier runtime, overkill for 30 frozen cells).
 - **Do not:** add a charting lib (D3/Plotly) or any request-time compute.
 
+### 2026-08-27 — URL-state on prerendered pages: client-side read via `afterNavigate`
+- **Decision:** On a prerendered route (`prerender = true`), keep the URL the single source
+  of truth for view/filter state, but read the query string **client-side** — a `$state`
+  set from `new URLSearchParams(location.search)` inside an `afterNavigate` callback — and
+  drive changes with plain anchor links (`/?channel=…#hash`). Never read `url.searchParams`
+  (or `$page.url`) during render.
+- **Why:** the prerender build hard-fails with `Cannot access url.searchParams on a page
+  with prerendering enabled` — a baked page can't depend on a request-time query (see
+  FAILURES 2026-08-27). The anchor-link + `afterNavigate` pattern keeps back-button and
+  reload restore for free, and produces **zero hydration mismatch** because SSR/hydration
+  both render the baked default (e.g. 'all') and the client only filters post-mount. Anchor
+  links also need no `goto`/store imports and stay shareable.
+- **Scope:** any prerendered view with filter/query state (V3 Heatmap channel filter today;
+  future views).
+- **Do not:** read `page.url.searchParams` / `$page.url` in render or a `$derived` on a
+  prerendered route; don't reach for `goto` or navigation stores when a plain anchor +
+  `afterNavigate` does the job.
+
 ### 2026-08-26 — Data flow: freeze-and-commit (INVERTED from Lift Math)
 - **Decision:** SSOT (Fly Postgres, reachable only via interactive `flyctl auth` + proxy)
   → **precompute run LOCALLY once by a human who can auth** → emit a **provenance-stamped

@@ -33,6 +33,24 @@ quarto" or "scope, scrollytelling, decoration"]
 
 [New entries get added here, most recent at the top]
 
+### 2026-08-27 — Reading `url.searchParams` in render broke the prerender build (V3)
+
+**Attempted:** V3's channel filter derived state reactively from
+`page.url.searchParams.get('channel')` (`$app/state`) inside the component render.
+
+**Why it didn't work:** `prerender = true` forbids it — the build fails with
+`Cannot access url.searchParams on a page with prerendering enabled`. A prerendered page
+is baked once with no request, so it can't depend on the query string at render time.
+
+**What we tried instead:** Keep the URL as the single source of truth, but read it
+**client-side** — `channel` is a `$state` set by an `afterNavigate` callback
+(`new URLSearchParams(location.search)`). Prerender bakes the neutral 'all' state; the
+client syncs after every navigation (initial hydration, toggle clicks, back/forward).
+Bonus: zero hydration mismatch (SSR/hydration both render 'all'; the client filters
+post-mount). Promoted to a durable rule — see DECISIONS 2026-08-27.
+
+**Status:** Resolved · **Tags:** sveltekit, prerender, url-state, searchparams, afternavigate, hydration
+
 ### 2026-08-26 — Browser-pane screenshots wouldn't composite (most of the session)
 
 **Attempted:** `computer{action:"screenshot"}` to visually QA V1/V2 at 1440px and 375px.
