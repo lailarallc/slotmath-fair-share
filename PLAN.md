@@ -188,6 +188,11 @@ Steps:
       extract shapes it will accept. No client-mode code.
     - Depends on: S1
     - Done when: panel renders with concrete extract-shape copy; nothing computes.
+> **F2 polish candidates (decide at F2, do not build early):**
+> - Mobile card-stack for the dollar tables (each cell a stacked card, $ visible without
+>   horizontal scroll). Not built now — the hero delivers the headline $ without scroll,
+>   so nothing's broken; building it today is speculative scope.
+
 - [ ] F2: Full Lailara brand frame + copy/voice pass + the CTA closing state ("sell
       across 3+ regions and 2+ banner types? …") wired to the pre-registered metric.
       **Include one line of Spin Rate visual-pairing copy** (conceptual reference — which
