@@ -109,12 +109,19 @@ Each entry:
   calling the demo done.
 - **Do not:** ship the CTA as an uninstrumented `<a href>`; do not roll a custom beacon
   (that's request-time compute); do not add cookies or a consent banner.
-- **Cloudflare Web Analytics auto-injection MUST stay OFF (2026-08-26):** Cloudflare
-  edge-injects `static.cloudflareinsights.com/beacon.min.js` into the page — a **second
-  tracker** the single-tracker, cookieless posture never sanctioned (verified injected on
-  the live site 2026-08-26). Disable per Pages project: **Settings → Web Analytics → off**.
-  Not disable-able from repo code or the CLI without Cloudflare dashboard/token access —
-  it's a dashboard action. Re-check after any new Pages project.
+- **Cloudflare zone-level Web Analytics RUM on lailarallc.com MUST stay Disabled
+  (2026-08-26, corrected):** the source was **zone-level** RUM on the `lailarallc.com`
+  zone entry — NOT the per-Pages-project toggle. Zone RUM edge-injects
+  `static.cloudflareinsights.com/beacon.min.js` into **every property on the domain**
+  (fleet-wide, not just slotmath), a **second tracker** the single-tracker, cookieless
+  posture never sanctioned (verified injected on the live site 2026-08-26; the slotmath
+  Pages-project toggle was already off and was never the source). Re-enabling zone RUM
+  re-injects the unsanctioned tracker across the whole fleet. **Disable path:** Cloudflare
+  → Web Analytics → Manage site (`lailarallc.com`) → **Disable**. Dashboard action; not
+  disable-able from repo code or CLI without dashboard/token access. The per-project Pages
+  toggle is **irrelevant** to this — do not treat it as the guard. **Now Disabled
+  fleet-wide (2026-08-27, per Shawn's call);** beacon verified gone on a fresh load,
+  GoatCounter intact as the single tracker.
 - **Acceptance MET (2026-08-26):** live CTA click → POST `lailara.goatcounter.com/count?p=cta_click`
   → 200, event dashboard-confirmed; pageviews recording. S3 acceptance criterion closed.
 
