@@ -329,11 +329,11 @@
 	<section id="heatmap" class="block">
 		<p class="eyebrow">Which door first</p>
 		<h2 class="ll-section-title heatmap-title">
-			{hero.retailer}'s {hero.region} region is the first door to defend — {usdCell(hero.gap_dollars)}
+			{hero.retailer}'s {hero.region} region is the first door to defend — {usdBig(hero.gap_dollars)}
 			of shelf ahead of its sales.
 		</h2>
 		<p class="index-lede">
-			Every retailer–region cell, coloured by the scan-revenue gap. Berry runs over-shelved — the
+			Every retailer–region cell, colored by the scan-revenue gap. Berry runs over-shelved — the
 			number a category manager reaches first, and the one to walk in with. Teal runs under-shelved
 			(all club). Grey is proportional. Filter to a channel to isolate the clean grocery story.
 		</p>
@@ -389,7 +389,7 @@
 		</div>
 
 		<p class="footnote">
-			Colour = signed scan-revenue gap (CY2025); darker = larger. −$ over-shelved (over the {m.band_upper}
+			Color = signed scan-revenue gap (CY2025); darker = larger. −$ over-shelved (over the {m.band_upper}
 			band), +$ under-shelved (under {m.band_lower}). n = {cells.length} retailer–region cells.
 		</p>
 		{#if channel === 'all' || channel === 'club'}
@@ -398,6 +398,14 @@
 				In the map for channel awareness, out of the defensive headline.
 			</p>
 		{/if}
+
+		<aside class="crosslink heat-pairing">
+			<span class="crosslink-label">Pair with</span>
+			<p>
+				The map names the door. Which items inside it earn their slots is the companion
+				question — Spin Rate's hidden-gem quadrant answers it, one banner at a time.
+			</p>
+		</aside>
 	</section>
 
 	<!-- ═══ ROADMAP · CLIENT MODE (described — F1, no compute) ═════════════════ -->
@@ -454,15 +462,29 @@
 		</p>
 	</section>
 
-	<!-- ═══ CTA / ENGAGEMENT ══════════════════════════════════════════════════ -->
-	<section id="engagement" class="block cta-block">
-		<a class="cta" href="#roadmap" onclick={fireCta}>See what the paid category engagement adds</a>
+	<!-- ═══ CTA / ENGAGEMENT — closing state (F2) ═════════════════════════════ -->
+	<section id="engagement" class="block">
+		<div class="closing">
+			<p class="eyebrow">The engagement</p>
+			<h2 class="ll-section-title closing-title">
+				Sell across three or more regions and two or more channels? The category math is
+				worth running.
+			</h2>
+			<p class="closing-body">
+				A within-footprint spread this wide means your slots and your sales already diverge
+				across doors. Category data — a competitor's velocity, the category's true size per
+				banner — is what turns that divergence into a number a buyer has to answer. This demo
+				brand clears the line: five regions, three channels. If yours does too, the paid
+				engagement prices every door against the full category, not just your own footprint.
+			</p>
+			<a class="cta" href="#roadmap" onclick={fireCta}>See what the paid category engagement adds</a>
+		</div>
 	</section>
 </div>
 
 <style>
 	.lailara-container { color: var(--ll-london-20); }
-	section[id] { scroll-margin-top: 118px; }
+	section[id] { scroll-margin-top: 126px; } /* clears the 80px frame header + 45px sub-nav */
 
 	/* Sub-nav */
 	.subnav {
@@ -607,7 +629,7 @@
 		color: var(--ll-chicago-20);
 		flex-shrink: 0;
 	}
-	.crosslink p { margin: 0; font-family: var(--ll-sans); font-size: 15px; line-height: 1.55; color: var(--ll-london-20); }
+	.crosslink p { margin: 0; max-width: var(--ll-body-max-width); font-family: var(--ll-sans); font-size: 15px; line-height: 1.55; color: var(--ll-london-20); }
 	.crosslink a { color: var(--ll-london-20); text-decoration: underline; }
 	.crosslink a:hover { color: var(--ll-chicago-20); }
 
@@ -668,11 +690,11 @@
 
 	/* Distribution strip */
 	.strip { margin: 0 0 8px; }
-	.chart-title { font-family: var(--ll-serif); font-size: 18px; font-weight: 700; color: var(--ll-london-5); margin: 0 0 8px; }
+	.chart-title { font-family: var(--ll-serif); font-size: 22px; font-weight: 700; line-height: 1.3; color: var(--ll-london-5); margin: 0 0 8px; }
 	.strip-wrap { width: 100%; }
 	.strip-svg { width: 100%; height: auto; display: block; }
 	:global(.strip-lab) { font-family: var(--ll-sans); font-size: 13px; fill: var(--ll-london-35); }
-	:global(.strip-lab-mute) { fill: var(--ll-london-70); }
+	:global(.strip-lab-mute) { fill: var(--ll-london-40); }
 	.legend { display: flex; gap: 18px; margin: 6px 0 0; }
 	.lg { font-family: var(--ll-sans); font-size: 12px; color: var(--ll-london-35); display: flex; align-items: center; }
 	.lg::before { content: ''; width: 12px; height: 3px; margin-right: 6px; display: inline-block; }
@@ -773,10 +795,10 @@
 	td.over-3  { background: var(--ll-tokyo-40); color: #fff; }
 	td.over-2  { background: var(--ll-tokyo-70); color: var(--ll-tokyo-5); }
 	td.over-1  { background: var(--ll-tokyo-85); color: var(--ll-tokyo-5); }
-	td.under-3 { background: var(--ll-hk-35);    color: #fff; }
+	td.under-3 { background: var(--ll-hk-20);    color: #fff; }
 	td.under-2 { background: var(--ll-hk-55);    color: var(--ll-hk-5); }
 	td.under-1 { background: var(--ll-hk-85);    color: var(--ll-hk-5); }
-	td.inband  { background: var(--ll-london-95); color: var(--ll-london-35); }
+	td.inband  { background: var(--ll-london-85); color: var(--ll-london-20); }
 
 	/* Legend */
 	.heat-legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 14px 0 0; }
@@ -785,10 +807,10 @@
 	.sw.over-3  { background: var(--ll-tokyo-40); }
 	.sw.over-2  { background: var(--ll-tokyo-70); }
 	.sw.over-1  { background: var(--ll-tokyo-85); }
-	.sw.under-3 { background: var(--ll-hk-35); }
+	.sw.under-3 { background: var(--ll-hk-20); }
 	.sw.under-2 { background: var(--ll-hk-55); }
 	.sw.under-1 { background: var(--ll-hk-85); }
-	.sw.inband  { background: var(--ll-london-90); }
+	.sw.inband  { background: var(--ll-london-85); }
 	.heat-club-note { color: var(--ll-london-40); }
 
 	/* ── Roadmap / client-mode panel (F1, described) ── */
@@ -820,8 +842,21 @@
 	.ec-h { font-family: var(--ll-sans); font-size: 16px; font-weight: 600; color: var(--ll-london-5); margin: 8px 0 6px; }
 	.ec-b { font-family: var(--ll-sans); font-size: 14px; line-height: 1.5; color: var(--ll-london-20); margin: 0; }
 
-	/* CTA */
-	.cta-block { text-align: left; }
+	/* ── Closing state / CTA (F2) ── */
+	.closing {
+		background: var(--ll-london-95);
+		border-top: 3px solid var(--ll-chicago-20);
+		padding: 24px;
+	}
+	.closing-title { color: var(--ll-london-5); margin: 8px 0 14px; max-width: var(--ll-body-max-width-wide); }
+	.closing-body {
+		font-family: var(--ll-sans);
+		font-size: 17px;
+		line-height: 1.6;
+		color: var(--ll-london-20);
+		margin: 0 0 22px;
+		max-width: var(--ll-body-max-width);
+	}
 	.cta {
 		display: inline-block;
 		background: var(--ll-chicago-20);
@@ -834,7 +869,17 @@
 		text-decoration: none;
 	}
 	.cta:hover { background: var(--ll-chicago-10); }
-	.cta-note { font-family: var(--ll-sans); font-size: 13px; color: var(--ll-london-35); margin: 10px 0 0; }
+	.cta:active { background: var(--ll-chicago-5); }
+
+	/* Accessibility: visible focus on every interactive control (DS: 2px London-5, 2px offset) */
+	.cta:focus-visible,
+	.seg:focus-visible,
+	.subnav a:focus-visible,
+	.crosslink a:focus-visible,
+	.disclosure:focus-visible {
+		outline: 2px solid var(--ll-london-5);
+		outline-offset: 2px;
+	}
 
 	@media (max-width: 640px) {
 		.dollar-table { font-size: 13px; }
@@ -850,5 +895,7 @@
 		.heat-table .ban-h .chip { display: none; }
 		.heat-table .reg-h { font-size: 11px; }
 		.seg { padding: 8px 12px; font-size: 13px; }
+		.closing { padding: 20px; }
+		.chart-title { font-size: 18px; }
 	}
 </style>

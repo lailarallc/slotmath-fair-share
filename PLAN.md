@@ -239,13 +239,29 @@ Steps:
 >   filter yields no OVER cell (e.g. Club → keep an under-shelved-framed line or the
 >   channel-awareness note). Copy stays honest in every filter state. Cosmetic; not urgent.
 
-- [ ] F2: Full Lailara brand frame + copy/voice pass + the CTA closing state ("sell
+- [x] F2: Full Lailara brand frame + copy/voice pass + the CTA closing state ("sell
       across 3+ regions and 2+ banner types? …") wired to the pre-registered metric.
       **Include one line of Spin Rate visual-pairing copy** (conceptual reference — which
       door + which items — no deep link; see DECISIONS 2026-08-26 recontextualization).
     - Depends on: V1, V2, V3, F1
     - Done when: passes the Deployed UI gate at 1440px and 375px; CTA closing state
       present; the Spin Rate pairing line is on the page.
+    - ✅ Built + verified. Closing-state panel (qualifier "three or more regions and two or
+      more channels" — reworded from "banner types" for page-vocabulary consistency) wraps the
+      instrumented `cta_click` CTA. One conceptual Spin Rate "Pair with" aside, no deep link.
+      Brand-frame finish: page `<title>` + meta description (tab title was blank); DS focus
+      rings (2px London-5, offset 2px) on CTA / toggle / sub-nav / links. Copy/voice pass clean
+      (no banned words, no exclamations, honest-both-ways). **Ran a 5-lens adversarial review
+      workflow** (design-system / voice / a11y / responsive / spec-completeness) — spec lens
+      returned zero gaps; applied 9 confirmed fixes: heatmap in-band tile London-95→85 (step-95
+      forbidden as data fill) + swatch match; axis labels London-70→40 (was ~1.9:1, now 5.2:1
+      AA); under-3 tile HK-35→20 (white was ~4.0:1, now 7.0:1 AA); chart-title 18→22/18;
+      crosslink prose measure-capped; scroll-margin 118→126px; British→American spelling;
+      `.closing` padding to grid. Gate: 1440 & 375 zero-overflow, console clean, 77 invariants
+      hold. **One judgment item flagged to user (not applied):** the V1 hero "the number a
+      category manager computes on their own syndicated data / walk into the reset with the
+      answer in hand" — review reads it as over-claiming equivalence with the paid category
+      number (roadmap reserves that). QA-passed V1 copy + core positioning → user's call.
 - [ ] B (integration): final deploy with all views; confirm the domain is Active and the
       GoatCounter `cta_click` event records on production; CI invariant test green.
     - Depends on: S3, D2, F2
