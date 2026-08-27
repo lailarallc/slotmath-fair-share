@@ -153,6 +153,27 @@ Each entry:
 - **Acceptance MET (2026-08-26):** live CTA click → POST `lailara.goatcounter.com/count?p=cta_click`
   → 200, event dashboard-confirmed; pageviews recording. S3 acceptance criterion closed.
 
+### 2026-08-27 — GoatCounter query-suppression: strip the page query on BOTH the event and the pageview
+- **Decision:** The param-less instrumentation rule (never send the `?channel=…` filter) is
+  enforced with a specific mechanism that MUST stay in place:
+  - **Event (`fireCta`, `+page.svelte`):** wrap `window.goatcounter.get_data` for the single
+    `count()` call to set `d.q = ''`, then restore it in `finally`.
+  - **Pageview (`app.html`):** set `window.goatcounter = { no_onload: true }` **before** count.js
+    loads to suppress its auto-pageview, then fire ONE query-free pageview ourselves once count.js
+    is ready (`p = location.pathname`, `q = ''`).
+- **Why:** count.js **hardcodes** `q: location.search` in `get_data` (no `vars.q` override), and its
+  auto-pageview path is `pathname+search` — so both surfaces leaked the channel filter on a
+  deep-link arrival (FAILURES 2026-08-27). Verified on prod: event q-free; exactly **1** clean
+  pageview beacon fires. Confirmed against the live count.js source that `if (!goatcounter.no_onload)`
+  gates the entire auto-count block.
+- **Scope:** GoatCounter instrumentation (this tool; the same trap applies to any fleet tool using
+  count.js with URL state).
+- **Do not:** remove `no_onload` and rely on the auto-pageview (it leaks `q` and re-adds `search`
+  to the path); do not drop the `get_data` wrap from `fireCta`; do not "simplify" to a plain
+  `count({path:'cta_click'})` (that reintroduces `q=location.search`); do not roll a custom beacon.
+  If the manual pageview is ever removed, the rate **denominator dies** — always verify exactly one
+  clean pageview beacon fires on prod after touching this.
+
 ### 2026-08-26 — Deploy: Cloudflare Pages, build-in-CI, project name `slotmath`
 - **Decision:** Cloudflare Pages via GitHub Actions (build-in-CI so no token enters the
   build container), `wrangler pages deploy build --project-name=slotmath --branch=main`,

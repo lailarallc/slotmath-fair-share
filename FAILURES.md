@@ -33,6 +33,42 @@ quarto" or "scope, scrollytelling, decoration"]
 
 [New entries get added here, most recent at the top]
 
+### 2026-08-27 — GoatCounter count.js leaked the page query string on BOTH the event and the pageview
+
+**Attempted:** Fire the `cta_click` event with `window.goatcounter.count({ path: 'cta_click',
+event: true })`, assuming an explicit `path` makes the beacon param-less (the pre-registered
+instrumentation rule: never send the query string / channel filter).
+
+**Why it didn't work:** count.js's `get_data` **hardcodes** `q: location.search` — there is no
+`vars.q` override — so a visitor clicking from `?channel=grocery` sent `q=?channel=grocery`. The
+**auto-pageview** leaked it twice: its path defaults to `pathname+search` AND it also sends `q`.
+The F2 review lenses (static analysis) missed it; it only showed in the runtime beacon body, on
+the first real click. Two surfaces, identical leak.
+
+**What we tried instead:** Event — wrap `goatcounter.get_data` for the single `count()` call to
+blank `q`, then restore (no custom beacon; that stays forbidden). Pageview — suppress the auto
+count with `no_onload: true` (confirmed against the live count.js: `if (!goatcounter.no_onload)`
+gates the whole auto-count block) and fire one query-free pageview ourselves (`p=location.pathname`,
+`q=''`) so the rate **denominator stays alive**. Prod-verified: event q-free, exactly 1 clean
+pageview beacon fires. See DECISIONS 2026-08-27 "GoatCounter query-suppression."
+
+**Status:** Resolved · **Tags:** goatcounter, analytics, query-string, privacy, no_onload, get_data, beacon, pre-registered-rule
+
+### 2026-08-27 — `vite preview` served stale builds until the server was restarted
+
+**Attempted:** Rebuild (`npm run build`) then re-verify the deployed `build/` in the running
+`vite preview` (started via `preview_start`), expecting the reload to show new output.
+
+**Why it didn't work:** The running preview process kept serving the prior build — reloads and
+cache-buster query params didn't refresh it. Cost several confusing "the fix didn't render"
+loops before the cause was clear.
+
+**What we tried instead:** `preview_stop` + `preview_start` after each rebuild guarantees a fresh
+serve. Lesson: to verify a fresh SvelteKit build in the pane, restart the preview server, don't
+just reload the tab.
+
+**Status:** Resolved (workaround) · **Tags:** vite, preview, cache, sveltekit, build, verification
+
 ### 2026-08-27 — Reading `url.searchParams` in render broke the prerender build (V3)
 
 **Attempted:** V3's channel filter derived state reactively from

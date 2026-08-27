@@ -285,6 +285,17 @@ When an arc completes, archive its goal, completion date, and outcome
 here. Then start a new arc above. Provides continuity without bloating
 the active plan.
 
+### 2026-08-27 — Ship the ~1-week 2.5-view Slot Math demo (Dollarizer / Index / Heatmap + roadmap + CTA)
+- Outcome: **Shipped.** Full static SvelteKit demo live and rule-clean at
+  `slotmath.lailarallc.com` — Dollarizer (over-shelved defensive intel), Index (verdict + 30-cell
+  table), Heatmap qualifier map (banner × region, channel filter in the URL), F1 client-mode
+  roadmap panel, F2 brand-frame finish + closing-state CTA + Spin Rate pairing. All 3 planning
+  gates passed (data ✅ / product 🟡→resolved / eng 🟡→resolved); 11 build tasks (S1–S3, D1–D2,
+  V1–V3, F1, F2, B) all complete. Frozen 30-cell JSON ($32,323,139.62 / 9,176 slots), CI invariant
+  gate (77 assertions), org reusable deploy workflow. Instrumentation param-less on both beacon
+  surfaces (query-leak found + fixed at B); GoatCounter `cta_click`/pageview threshold armed.
+- Tag: **v0.1.0**
+
 ### [Date completed] — [Goal]
 - Outcome: [what shipped or what was decided]
 - Tag: [git tag if one was created]

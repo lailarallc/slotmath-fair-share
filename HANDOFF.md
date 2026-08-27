@@ -9,6 +9,37 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-08-27 15:30 — F2 + B shipped; query-leak closed on both surfaces; ARC COMPLETE
+
+**Started from:** F2 pending (V3 + F1 already shipped).
+
+**Did:** Built **F2** — closing-state qualifier CTA, conceptual Spin Rate "Pair with" aside (no
+deep link), page `<title>` + meta description, DS focus rings on every control; killed a
+signed-number leak in the heatmap prose headline. Ran a **5-lens adversarial review workflow**
+(design-system / voice / a11y / responsive / spec-complete) → applied 9 fixes incl. two real
+WCAG-AA contrast failures (heatmap under-3 tile, axis labels), a forbidden step-95 data fill,
+vocab consistency, American spelling. **Hero edit** (user's diagnosis): resolved the CM-number
+identity collision ("computes their own version of this number"). **B (integration):** full demo
+verified live on prod + CI green + domain Active; the first real `cta_click` surfaced a
+pre-registered-rule violation — GoatCounter's count.js leaked the page query string on **BOTH**
+the event (`q=location.search`) and the auto-pageview (path `pathname+search` + `q`). Fixed both
+(get_data wrap for the event; `no_onload` + a manual query-free pageview so the rate denominator
+stays alive), deployed, prod-verified (event q-free; exactly **1** clean pageview beacon fires),
+user-confirmed on the GoatCounter dashboard. Two fleet-ops commits (org reusable workflow;
+@v1 pin) merged clean.
+
+**State:** Full 2.5-view demo **SHIPPED** and rule-clean at `slotmath.lailarallc.com`. All 20 arc
+tasks checked. CI green, domain Active, both beacon surfaces query-free, threshold armed for
+launch. Tagged **v0.1.0**.
+
+**Next:** Arc **DONE** — no active build task. Options: launch and monitor `cta_click_rate` vs the
+pre-registered threshold (kill/iterate rule; min-sample ≥150 unique pageviews OR 8 weeks), or pick
+up an F2 polish candidate (filter-reactive heatmap headline; mobile card-stack). Nothing broken
+or pending. **Boundary note (user):** "F1 then /wrap" ran through into F2+B — saved to memory
+([[respect-stated-boundaries]]); treat a stated stop as a hard stop.
+
+---
+
 ## 2026-08-27 14:20 — Shipped V3 + F1; Cloudflare rule corrected; deploy migrated to org workflow
 
 **Started from:** Prior session shipped S1–S3, D1–D2, V1–V2, site live and green; one open
