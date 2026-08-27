@@ -68,7 +68,7 @@ jobs:
   deploy:
     name: Deploy
     needs: [build]
-    uses: lailarallc/reusable-workflows/.github/workflows/pages-deploy.yml@main
+    uses: lailarallc/reusable-workflows/.github/workflows/pages-deploy.yml@v1
     with:
       project_name: slotmath
       artifact_name: site
