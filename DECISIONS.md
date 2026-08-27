@@ -33,11 +33,21 @@ Each entry:
   User released the reuse constraint ("choose the best tools to make it shine"), so the
   pick is on craft, not fleet consistency — it lands on the same framework the panel named.
 
-### 2026-08-26 — Stack: SvelteKit static + bespoke SVG (eng gate)
-- **Decision:** **SvelteKit (Svelte 5) + `@sveltejs/adapter-static` + Vite**; all three
-  views as **hand-authored SVG (no charting library)** with light, purposeful motion;
-  styled to the Lailara design system. Fully static output; the Heatmap's interactivity
-  compiles away to static files (the "static vs. island" fork is a false choice).
+### 2026-08-26 — Stack: SvelteKit static + hand-authored views (eng gate)
+- **Decision:** **SvelteKit (Svelte 5) + `@sveltejs/adapter-static` + Vite**; **hand-authored
+  views, no charting library — SVG where geometry demands it, semantic HTML where the form is
+  tabular** (amended 2026-08-27, see below); light, purposeful motion; styled to the Lailara
+  design system. Fully static output; the Heatmap's interactivity compiles away to static
+  files (the "static vs. island" fork is a false choice).
+- **Amendment 2026-08-27 (V3 build):** original wording said "all three views as hand-authored
+  SVG." The lock's *substance* is **hand-authored, no charting library** — that stands. The
+  medium is chosen per form: **SVG where geometry is continuous** (V2 index strip — a position
+  scale), **semantic HTML where the form is a labeled grid or list** (V1 Dollarizer table, V3
+  Heatmap banner × region matrix). HTML there is a *win*, not a compromise: real `<th>` headers,
+  selectable values, colorblind-safe signed numbers, and the proven `.table-scroll` mobile
+  pattern — all of which an SVG grid of `<rect>`+`<text>` would surrender for zero gain. Rule of
+  thumb: continuous geometry → SVG; grid/tabular → HTML. Still no D3/Plotly, still no
+  request-time compute.
 - **Why:** best-in-class for a small, high-polish, data-forward microsite — near-zero
   runtime, total design control for the brand frame + 30-second read, smooth interaction.
   Charts follow the `dataviz` skill; polish follows `ce-frontend-design` + the Deployed UI
