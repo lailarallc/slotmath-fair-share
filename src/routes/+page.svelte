@@ -400,10 +400,63 @@
 		{/if}
 	</section>
 
+	<!-- ═══ ROADMAP · CLIENT MODE (described — F1, no compute) ═════════════════ -->
+	<section id="roadmap" class="block">
+		<p class="eyebrow">Roadmap · client mode</p>
+		<h2 class="ll-section-title roadmap-title">
+			What the paid engagement adds: true category Fair Share.
+		</h2>
+		<p class="index-lede">
+			This demo measured your shelf against your own sales — a within-footprint index, on the
+			doors you already stock. It is honest, and it is blind to the rest of the category: it
+			cannot see a competitor outselling you on the same shelf, or a banner where the category
+			runs twice the size your own sales imply. That gap is the buyer's real question.
+		</p>
+		<p class="index-lede">
+			Bring a syndicated category extract and the engagement computes <strong>true category Fair
+			Share</strong> — your share of the category's authorized slots ÷ your share of the
+			category's sales, per retailer and region. Not "is your shelf proportional to your sales,"
+			but "is it proportional to the category's" — the number a category manager adjudicates in
+			the room.
+		</p>
+
+		<h3 class="roadmap-sub">The extracts it accepts — IRI, Circana, or SPINS</h3>
+		<div class="extract-cards">
+			<div class="extract-card">
+				<span class="ec-n">1</span>
+				<p class="ec-h">Category sales</p>
+				<p class="ec-b">
+					Total-category dollar and unit sales by retailer × region, 52-week and latest period.
+					The denominator each door is measured against.
+				</p>
+			</div>
+			<div class="extract-card">
+				<span class="ec-n">2</span>
+				<p class="ec-h">Distribution</p>
+				<p class="ec-b">
+					%ACV and TDP for the category and for your items, by retailer. The category's slot
+					count — the shelf the category commands, not just the shelf you hold.
+				</p>
+			</div>
+			<div class="extract-card">
+				<span class="ec-n">3</span>
+				<p class="ec-h">Your brand in the category</p>
+				<p class="ec-b">
+					Your dollar share, unit share, and distribution inside the category definition you
+					choose. The numerator.
+				</p>
+			</div>
+		</div>
+		<p class="footnote">
+			Three extracts, one grain: retailer × region. The engagement maps them to the doors in this
+			demo and recomputes every index against the full category. No category data is loaded here —
+			this panel describes the inputs; it does not compute on them.
+		</p>
+	</section>
+
 	<!-- ═══ CTA / ENGAGEMENT ══════════════════════════════════════════════════ -->
 	<section id="engagement" class="block cta-block">
-		<a class="cta" href="#engagement" onclick={fireCta}>See what the paid category engagement adds</a>
-		<p class="cta-note">Client mode — roadmap panel, coming.</p>
+		<a class="cta" href="#roadmap" onclick={fireCta}>See what the paid category engagement adds</a>
 	</section>
 </div>
 
@@ -737,6 +790,35 @@
 	.sw.under-1 { background: var(--ll-hk-85); }
 	.sw.inband  { background: var(--ll-london-90); }
 	.heat-club-note { color: var(--ll-london-40); }
+
+	/* ── Roadmap / client-mode panel (F1, described) ── */
+	.roadmap-title { color: var(--ll-london-5); margin: 8px 0 20px; max-width: var(--ll-body-max-width-wide); }
+	.roadmap-sub {
+		font-family: var(--ll-sans);
+		font-size: 13px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--ll-london-35);
+		margin: 28px 0 14px;
+	}
+	.extract-cards { display: flex; gap: 16px; flex-wrap: wrap; }
+	.extract-card {
+		flex: 1 1 220px;
+		padding: 18px;
+		background: var(--ll-london-95);
+		border-top: 3px solid var(--ll-chicago-20);
+	}
+	.ec-n {
+		display: inline-block;
+		font-family: var(--ll-serif);
+		font-size: 22px;
+		font-weight: 700;
+		line-height: 1;
+		color: var(--ll-chicago-20);
+	}
+	.ec-h { font-family: var(--ll-sans); font-size: 16px; font-weight: 600; color: var(--ll-london-5); margin: 8px 0 6px; }
+	.ec-b { font-family: var(--ll-sans); font-size: 14px; line-height: 1.5; color: var(--ll-london-20); margin: 0; }
 
 	/* CTA */
 	.cta-block { text-align: left; }

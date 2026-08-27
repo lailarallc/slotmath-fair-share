@@ -210,10 +210,21 @@ Steps:
       both success.
 
 **Phase F — Finish & integrate**
-- [ ] F1: Client-mode **described** roadmap panel — copy naming the IRI/Circana/SPINS
+- [x] F1: Client-mode **described** roadmap panel — copy naming the IRI/Circana/SPINS
       extract shapes it will accept. No client-mode code.
     - Depends on: S1
     - Done when: panel renders with concrete extract-shape copy; nothing computes.
+    - ✅ Built + verified by DOM. New `#roadmap` section between Heatmap and CTA: frames the
+      upgrade from within-footprint index (what the demo showed) → **true category Fair Share**
+      (your share of category slots ÷ your share of category sales, per door), the number a
+      category manager adjudicates. Three extract-shape cards — (1) Category sales $ / units by
+      retailer × region, (2) Distribution %ACV + TDP, (3) your share in the category — named as
+      IRI / Circana / SPINS, grain retailer × region. Pure copy: **nothing computes** (footnote
+      states it). Economist voice, honest-both-ways. Stale "roadmap panel, coming" CTA note
+      removed; CTA href now → `#roadmap` (still fires `cta_click`). Verified: section order
+      dollarizer→index→heatmap→roadmap→engagement, cards render + chicago border, 375px cards
+      stack full-width 0 overflow, no console errors, build warning-free. ⏳ Prod pixels = user
+      (screenshots down this session).
 > **F2 polish candidates (decide at F2, do not build early):**
 > - Mobile card-stack for the dollar tables (each cell a stacked card, $ visible without
 >   horizontal scroll). Not built now — the hero delivers the headline $ without scroll,
