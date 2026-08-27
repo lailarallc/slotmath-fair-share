@@ -91,7 +91,24 @@
 	};
 
 	function fireCta() {
-		window.goatcounter?.count?.({ path: 'cta_click', title: 'CTA click', event: true });
+		const gc = window.goatcounter;
+		if (!gc?.count || !gc.get_data) return;
+		// Pre-registered instrumentation rule (DECISIONS 2026-08-26): the cta_click event
+		// is param-less — the URL carries the channel filter, and we never send it. count.js
+		// hardcodes `q: location.search` in get_data, so wrap it for this one call to blank q
+		// (a visitor clicking from ?channel=grocery must not leak that), then restore. Uses
+		// GoatCounter's own count() path — not a custom beacon.
+		const origGetData = gc.get_data;
+		gc.get_data = (vars) => {
+			const d = origGetData(vars);
+			d.q = '';
+			return d;
+		};
+		try {
+			gc.count({ path: 'cta_click', title: 'CTA click', event: true });
+		} finally {
+			gc.get_data = origGetData;
+		}
 	}
 </script>
 
