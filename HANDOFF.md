@@ -30,11 +30,18 @@ green from the org, D2 gating CI. V1 fully verified (desktop + mobile). V2 verif
 (client-mode panel), F2 (frame finalize + CTA closing state), B (integration).
 
 **Next:** **V3 — Heatmap qualifier map** (region × banner grid, gap-$ ramp from
-`lailara_palette`, URL-state filters) to fill `#heatmap`. Open items: your aesthetic
-eyeball on V2 (strip/KPI polish); confirm single-scrolling-page vs tabs before V3 cements
-it; one manual GoatCounter `cta_click` verify on the deployed build (adblocker off); flyctl
-re-login if precompute is re-run. **NOTE: screenshots wouldn't composite this session —
-verify UI via `javascript_tool` DOM/computed-style, or have the user screenshot.**
+`lailara_palette`, **query-param filters on top of `#heatmap`** — page structure is LOCKED
+to single scrolling page + anchors, DECISIONS 2026-08-26). Open items: your aesthetic
+eyeball on V2 (strip/KPI polish) once the Chrome side-panel is back; flyctl re-login if
+precompute is re-run. **NOTE: screenshots wouldn't composite this session — verify UI via
+`javascript_tool` DOM/computed-style, or have the user screenshot.**
+
+**Post-wrap fixes (2026-08-26):** page structure LOCKED single-page; V2 boundary cells now
+show 3 decimals + "at the line" near a band bound (Kroger SE 1.299 / Sprouts SE 1.301);
+"Built in V3" task-id removed from the heatmap stub. **GoatCounter beacon VERIFIED** — a
+real `count()` beacon reaches `lailara.goatcounter.com/count?...&e=true` from prod (proven
+via the resource timeline; fired as `verify_beacon` to keep `cta_click` clean). Remaining:
+user confirms the event in the GoatCounter dashboard (only thing not visible headlessly).
 
 ## 2026-08-26 10:14 — All three planning gates passed; architecture locked
 
