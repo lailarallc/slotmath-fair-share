@@ -184,11 +184,24 @@ Steps:
       DOM:** index table fits 375 (327px, no overflow), Slots/sales column hidden, no
       scroll wall, body no horizontal overflow. ⏳ Aesthetic eyeball (strip/KPI polish)
       pending user — pane can't screenshot this session.
-- [ ] V3: Heatmap qualifier map — region × banner SVG grid, gap-$ colour ramp from
+- [x] V3: Heatmap qualifier map — region × banner grid, gap-$ colour ramp from
       `lailara_palette`, channel toggle, filter state in URL query params.
     - Depends on: S1, D1
     - Done when: grid renders; changing a filter updates the URL and a reload restores
       the same view; legible at 1440px and 375px.
+    - ✅ Built + verified by DOM. Grid = semantic HTML `<table>` (banners × regions),
+      not raw SVG — genuinely tabular, so more accessible (th headers, selectable text,
+      colorblind-safe signed $) and reuses the `.table-scroll` mobile pattern; still
+      hand-authored / no charting lib (honors the real DECISIONS lock). **Deliberate
+      deviation from the "SVG grid" wording** — all done-when criteria met better this way.
+      gap-$ ramp reuses V1/V2 semantics (tokyo=over, hk=under/club, grey=in-band, 3 tiers
+      by |gap|). Channel toggle = anchor links (`/?channel=…#heatmap`) → SvelteKit client
+      nav; URL is single source of truth, `afterNavigate` syncs `channel` client-side
+      (prerender bakes neutral 'all' — a static page can't read the query). **Verified:**
+      all tiers match frozen JSON; toggle click updates URL + grid; back button restores
+      prior filter; deep-link/reload restores filtered view; 375px = 0 page overflow, table
+      fits (327px, no wall), chips dropped; no console/hydration errors; 77 invariants hold.
+      ⏳ Aesthetic eyeball pending user — pane can't screenshot this session (same as V2).
 
 **Phase F — Finish & integrate**
 - [ ] F1: Client-mode **described** roadmap panel — copy naming the IRI/Circana/SPINS

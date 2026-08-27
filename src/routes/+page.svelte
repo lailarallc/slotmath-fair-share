@@ -1,6 +1,7 @@
 <script>
 	// Slot Math — single scrolling page, three view sections + shared CTA.
-	//   #dollarizer (V1) · #index (V2) · #heatmap (V3 stub) · #engagement (CTA)
+	//   #dollarizer (V1) · #index (V2) · #heatmap (V3) · #engagement (CTA)
+	import { afterNavigate } from '$app/navigation';
 	let { data } = $props();
 	const m = data.slotmath.metadata;
 	const cells = data.slotmath.cells;
@@ -40,6 +41,54 @@
 	const PADR = 40;
 	const xScale = (i) => PADL + ((i - AXIS_MIN) / (AXIS_MAX - AXIS_MIN)) * (CW - PADL - PADR);
 	const stripColor = { UNDER: 'var(--ll-hk-35)', OVER: 'var(--ll-tokyo-40)', 'in-band': 'var(--ll-london-40)' };
+
+	// ── V3 Heatmap: region × banner grid, gap-$ ramp, channel filter in the URL ──
+	// Fixed, legible order: over-shelved grocery/mass doors first (the defensive
+	// story), the two proportional grocery banners next, club (Costco, under) last.
+	const REGIONS = ['West', 'Southwest', 'Midwest', 'Northeast', 'Southeast'];
+	const REGION_ABBR = { West: 'W', Southwest: 'SW', Midwest: 'MW', Northeast: 'NE', Southeast: 'SE' };
+	const BANNERS = ['Walmart', 'Sprouts', 'Regional Group', 'Kroger', 'Whole Foods', 'Costco'];
+	const CHANNELS = [
+		{ key: 'all', label: 'All channels' },
+		{ key: 'grocery', label: 'Grocery' },
+		{ key: 'mass', label: 'Mass' },
+		{ key: 'club', label: 'Club' }
+	];
+
+	const channelOf = {};
+	const cellMap = {};
+	for (const c of cells) {
+		channelOf[c.retailer] = c.retail_channel;
+		cellMap[c.retailer + '|' + c.region] = c;
+	}
+	const cellAt = (b, r) => cellMap[b + '|' + r];
+
+	// URL is the single source of truth — reload restores, back button works.
+	// Prerender bakes the neutral 'all' state (a static page can't read the query);
+	// the client syncs `channel` from the real URL after every navigation.
+	let channel = $state('all');
+	afterNavigate(() => {
+		const c = new URLSearchParams(location.search).get('channel');
+		channel = c === 'grocery' || c === 'mass' || c === 'club' ? c : 'all';
+	});
+	const visibleBanners = $derived(
+		channel === 'all' ? BANNERS : BANNERS.filter((b) => channelOf[b] === channel)
+	);
+	const hrefFor = (c) => (c === 'all' ? '/#heatmap' : `/?channel=${c}#heatmap`);
+
+	// gap-$ ramp: verdict = hue (over→tokyo, under→hk, in-band→grey), |gap| = tier.
+	function heatClass(c) {
+		const a = Math.abs(c.gap_dollars);
+		if (c.verdict === 'OVER') return a >= 3e5 ? 'over-3' : a >= 1.2e5 ? 'over-2' : 'over-1';
+		if (c.verdict === 'UNDER') return a >= 7e5 ? 'under-3' : a >= 4e5 ? 'under-2' : 'under-1';
+		return 'inband';
+	}
+	// Compact, signed $ for a grid tile: −$736K over-shelved, +$1.2M under-shelved.
+	const usdCell = (n) => {
+		const s = n < 0 ? '−$' : '+$';
+		const a = Math.abs(n);
+		return a >= 1e6 ? s + (a / 1e6).toFixed(1) + 'M' : a >= 1e3 ? s + Math.round(a / 1e3) + 'K' : s + Math.round(a);
+	};
 
 	function fireCta() {
 		window.goatcounter?.count?.({ path: 'cta_click', title: 'CTA click', event: true });
@@ -276,11 +325,79 @@
 		</p>
 	</section>
 
-	<!-- ═══ V3 · HEATMAP (stub) ═══════════════════════════════════════════════ -->
+	<!-- ═══ V3 · HEATMAP ══════════════════════════════════════════════════════ -->
 	<section id="heatmap" class="block">
 		<p class="eyebrow">Which door first</p>
-		<h2 class="ll-section-title">Region × banner map</h2>
-		<p class="index-lede">The "which door first" view — region × banner, colour-coded by gap. Coming.</p>
+		<h2 class="ll-section-title heatmap-title">
+			{hero.retailer}'s {hero.region} region is the first door to defend — {usdCell(hero.gap_dollars)}
+			of shelf ahead of its sales.
+		</h2>
+		<p class="index-lede">
+			Every retailer–region cell, coloured by the scan-revenue gap. Berry runs over-shelved — the
+			number a category manager reaches first, and the one to walk in with. Teal runs under-shelved
+			(all club). Grey is proportional. Filter to a channel to isolate the clean grocery story.
+		</p>
+
+		<div class="channel-toggle" role="group" aria-label="Filter by retail channel">
+			{#each CHANNELS as ch (ch.key)}
+				<a
+					class="seg"
+					class:seg-active={channel === ch.key}
+					aria-current={channel === ch.key ? 'true' : undefined}
+					href={hrefFor(ch.key)}>{ch.label}</a>
+			{/each}
+		</div>
+
+		<div class="table-scroll">
+			<table class="heat-table" aria-label="Scan-revenue gap by banner and region">
+				<thead>
+					<tr>
+						<th scope="col" class="corner">Banner</th>
+						{#each REGIONS as r (r)}
+							<th scope="col" class="reg-h" title={r}>{REGION_ABBR[r]}</th>
+						{/each}
+					</tr>
+				</thead>
+				<tbody>
+					{#each visibleBanners as b (b)}
+						<tr>
+							<th scope="row" class="ban-h">
+								<span class="rr">{b}</span>
+								<span class="chip chip-{channelOf[b]}">{channelOf[b]}</span>
+							</th>
+							{#each REGIONS as r (r)}
+								{@const c = cellAt(b, r)}
+								{#if c}
+									<td class="heat {heatClass(c)}"
+										title="{b} · {r}: index {idx(c.index)}, {gapSigned(c.gap_dollars)} ({c.verdict})">
+										{usdCell(c.gap_dollars)}
+									</td>
+								{:else}
+									<td class="heat inband">—</td>
+								{/if}
+							{/each}
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
+
+		<div class="heat-legend" aria-hidden="true">
+			<span class="hg"><i class="sw over-3"></i><i class="sw over-2"></i><i class="sw over-1"></i> Over-shelved</span>
+			<span class="hg"><i class="sw inband"></i> In band</span>
+			<span class="hg"><i class="sw under-1"></i><i class="sw under-2"></i><i class="sw under-3"></i> Under-shelved (club)</span>
+		</div>
+
+		<p class="footnote">
+			Colour = signed scan-revenue gap (CY2025); darker = larger. −$ over-shelved (over the {m.band_upper}
+			band), +$ under-shelved (under {m.band_lower}). n = {cells.length} retailer–region cells.
+		</p>
+		{#if channel === 'all' || channel === 'club'}
+			<p class="footnote heat-club-note">
+				Club (Costco) reads under-shelved in every region — club-normal, not an expansion order.
+				In the map for channel awareness, out of the defensive headline.
+			</p>
+		{/if}
 	</section>
 
 	<!-- ═══ CTA / ENGAGEMENT ══════════════════════════════════════════════════ -->
@@ -533,6 +650,94 @@
 		margin-top: 2px;
 	}
 
+	/* ── V3 Heatmap view ── */
+	.heatmap-title { color: var(--ll-london-5); margin: 8px 0 20px; max-width: var(--ll-body-max-width-wide); }
+
+	/* Channel toggle — segmented control, each segment a shareable URL */
+	.channel-toggle {
+		display: inline-flex;
+		flex-wrap: wrap;
+		border: 1px solid var(--ll-london-85);
+		border-radius: var(--ll-radius);
+		overflow: hidden;
+		margin: 0 0 22px;
+	}
+	.seg {
+		font-family: var(--ll-sans);
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--ll-london-35);
+		text-decoration: none;
+		padding: 8px 16px;
+		background: var(--ll-canvas);
+		border-right: 1px solid var(--ll-london-85);
+	}
+	.seg:last-child { border-right: none; }
+	.seg:hover { color: var(--ll-chicago-20); background: var(--ll-london-95); }
+	.seg-active, .seg-active:hover { background: var(--ll-chicago-20); color: #fff; }
+
+	/* Heatmap grid — banners × regions, tiles gapped by border-spacing */
+	.heat-table {
+		border-collapse: separate;
+		border-spacing: 3px;
+		width: 100%;
+		min-width: 360px;
+		font-family: var(--ll-sans);
+	}
+	.heat-table .corner {
+		text-align: left;
+		font-size: 12px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: var(--ll-london-35);
+		padding: 0 8px 8px 0;
+	}
+	.heat-table .reg-h {
+		text-align: center;
+		font-size: 12px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: var(--ll-london-35);
+		padding: 0 0 8px;
+	}
+	.heat-table .ban-h {
+		text-align: left;
+		font-weight: 600;
+		white-space: nowrap;
+		padding: 0 12px 0 0;
+	}
+	td.heat {
+		text-align: center;
+		font-size: 13px;
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+		padding: 12px 6px;
+		border-radius: var(--ll-radius);
+	}
+	td.over-3  { background: var(--ll-tokyo-40); color: #fff; }
+	td.over-2  { background: var(--ll-tokyo-70); color: var(--ll-tokyo-5); }
+	td.over-1  { background: var(--ll-tokyo-85); color: var(--ll-tokyo-5); }
+	td.under-3 { background: var(--ll-hk-35);    color: #fff; }
+	td.under-2 { background: var(--ll-hk-55);    color: var(--ll-hk-5); }
+	td.under-1 { background: var(--ll-hk-85);    color: var(--ll-hk-5); }
+	td.inband  { background: var(--ll-london-95); color: var(--ll-london-35); }
+
+	/* Legend */
+	.heat-legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 14px 0 0; }
+	.hg { display: inline-flex; align-items: center; gap: 4px; font-family: var(--ll-sans); font-size: 12px; color: var(--ll-london-35); }
+	.sw { width: 14px; height: 14px; border-radius: var(--ll-radius); display: inline-block; }
+	.sw.over-3  { background: var(--ll-tokyo-40); }
+	.sw.over-2  { background: var(--ll-tokyo-70); }
+	.sw.over-1  { background: var(--ll-tokyo-85); }
+	.sw.under-3 { background: var(--ll-hk-35); }
+	.sw.under-2 { background: var(--ll-hk-55); }
+	.sw.under-1 { background: var(--ll-hk-85); }
+	.sw.inband  { background: var(--ll-london-90); }
+	.heat-club-note { color: var(--ll-london-40); }
+
 	/* CTA */
 	.cta-block { text-align: left; }
 	.cta {
@@ -555,5 +760,13 @@
 		.crosslink { flex-direction: column; gap: 6px; }
 		.col-footprint { display: none; } /* Index table: drop the extra column on mobile — 3 cols fit 375, no wall */
 		.kpi-n { font-size: 28px; }
+
+		/* Heatmap: shrink tiles, let long banner names wrap, drop chips to fit 375 */
+		.heat-table { min-width: 0; border-spacing: 2px; }
+		td.heat { font-size: 11px; padding: 9px 2px; }
+		.heat-table .ban-h { white-space: normal; padding-right: 8px; font-size: 12px; }
+		.heat-table .ban-h .chip { display: none; }
+		.heat-table .reg-h { font-size: 11px; }
+		.seg { padding: 8px 12px; font-size: 13px; }
 	}
 </style>
