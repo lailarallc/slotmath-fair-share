@@ -116,9 +116,9 @@
 			<p class="hero-lede">
 				At six retailer–region cells, your authorized shelf runs ahead of your scan sales.
 				{hero.retailer}'s {hero.region} region leads: {pct1(hero.slot_share)} of your slots on
-				{pct1(hero.dollar_share)} of your dollars — an index of {idx(hero.index)}. This is the
-				number a category manager computes on their own syndicated data. See it first, and walk
-				into the reset with the answer already in hand.
+				{pct1(hero.dollar_share)} of your dollars — an index of {idx(hero.index)}. A category
+				manager computes their own version of this number from syndicated data. See it first, and
+				walk into the reset with the answer already in hand.
 			</p>
 		</div>
 
