@@ -262,11 +262,20 @@ Steps:
       category manager computes on their own syndicated data / walk into the reset with the
       answer in hand" — review reads it as over-claiming equivalence with the paid category
       number (roadmap reserves that). QA-passed V1 copy + core positioning → user's call.
-- [ ] B (integration): final deploy with all views; confirm the domain is Active and the
+- [x] B (integration): final deploy with all views; confirm the domain is Active and the
       GoatCounter `cta_click` event records on production; CI invariant test green.
     - Depends on: S3, D2, F2
     - Done when: `slotmath.lailarallc.com` serves the full 2.5-view demo, one production
       `cta_click` records, and the invariant CI job is green.
+    - ✅ **CLOSED (2026-08-27, user-confirmed on the GoatCounter dashboard).** Full demo live
+      end-to-end (all views verified on prod), production `cta_click` recorded as a q-free
+      event from a filtered page, CI invariant green, domain Active. **B surfaced + fixed a
+      pre-registered-rule violation** not in its original scope: GoatCounter's count.js was
+      leaking the page query string (a visitor's `?channel=` filter) on BOTH the `cta_click`
+      event (`q=location.search`) and the auto-pageview (path `pathname+search` + `q`). Fixed
+      both via a `get_data` wrap (event) and `no_onload` + a manual query-free pageview
+      (denominator kept alive — verified exactly 1 clean pageview beacon fires on prod). No
+      custom beacon. See DECISIONS/FAILURES 2026-08-27. **The 2.5-view demo arc is complete.**
 
 ---
 
