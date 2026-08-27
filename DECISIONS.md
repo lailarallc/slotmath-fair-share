@@ -358,17 +358,17 @@ Each entry:
 
 ## Output Formats
 
-### 2026-08-26 — Single scrolling page + sticky sub-nav (not a tab SPA)
-- **Why:** The three views (Dollarizer / Index / Heatmap) are sections of one prerendered
-  page with a sticky sub-nav (anchor links) + stub sections for not-yet-built views. Chosen
-  over a client-side tab SPA to avoid speculative routing machinery, keep prerendering
-  trivial, and ship focused per-section reads. Rejected: tabbed `?view=` SPA (more machinery
-  than a ~1-week demo needs).
+### 2026-08-26 — Single scrolling page + sticky sub-nav (not a tab SPA) — LOCKED
+- **Why:** The three views are sections of one prerendered page with a sticky anchor
+  sub-nav (Dollarizer / Index / Heatmap) + stub sections for not-yet-built views. **Locked
+  at the page-vs-tabs gate (2026-08-26):** the CEO gate fixed a funnel order (defensive
+  intel → verdict → qualifier map → CTA closing state); one page preserves that read, tabs
+  fragment it. Tabs' one edge (a clean per-view meeting screen) is ~90% covered by anchor
+  links. **V3's Heatmap filters go in query params on top of `#heatmap`** (back-button
+  friendly) — not a routing layer.
 - **Scope:** front-end structure
-- **Do not:** add a dangling anchor to a not-yet-built section (SvelteKit prerender fails on
-  it) — add a stub section first, as `#engagement` and `#heatmap` do.
-- **Revisit:** confirm this vs. tabs before V3's Heatmap URL-state work cements it (the
-  Heatmap's region/banner filters are the one place query-param state is genuinely needed).
+- **Do not:** convert to a tab SPA; do not add a dangling anchor to a not-yet-built section
+  (SvelteKit prerender fails on it) — add a stub section first, as `#engagement`/`#heatmap` do.
 
 ---
 

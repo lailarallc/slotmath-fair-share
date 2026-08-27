@@ -23,7 +23,12 @@
 		return a >= 1e6 ? '$' + (a / 1e6).toFixed(2) + 'M' : '$' + Math.round(a / 1000) + 'K';
 	};
 	const pct1 = (x) => (x * 100).toFixed(1) + '%';
-	const idx = (x) => x.toFixed(2);
+	// Boundary cells (within NEAR_EDGE of a band bound) show 3 decimals so two rows that
+	// both round to 1.30 with opposite verdicts (Kroger SE 1.299 in-band, Sprouts SE 1.301
+	// over) read as "right at the line", not a contradiction. Done-when requirement.
+	const NEAR_EDGE = 0.015;
+	const nearEdge = (x) => Math.abs(x - m.band_lower) < NEAR_EDGE || Math.abs(x - m.band_upper) < NEAR_EDGE;
+	const idx = (x) => (nearEdge(x) ? x.toFixed(3) : x.toFixed(2));
 	const gapSigned = (g) => (g >= 0 ? '+' : '−') + usd0(g);
 	const vClass = (v) => (v === 'in-band' ? 'v-inband' : v === 'UNDER' ? 'v-under' : 'v-over');
 
@@ -255,7 +260,10 @@
 								<span class="chip chip-{c.retail_channel}">{c.retail_channel}</span>
 							</td>
 							<td class="num col-footprint footprint">{pct1(c.slot_share)} / {pct1(c.dollar_share)}</td>
-							<td class="num idx-cell {vClass(c.verdict)}">{idx(c.index)}</td>
+							<td class="num idx-cell {vClass(c.verdict)}">
+								{idx(c.index)}
+								{#if nearEdge(c.index)}<span class="at-line">at the line</span>{/if}
+							</td>
 							<td class="num gap-cell {vClass(c.verdict)}">{gapSigned(c.gap_dollars)}</td>
 						</tr>
 					{/each}
@@ -272,7 +280,7 @@
 	<section id="heatmap" class="block">
 		<p class="eyebrow">Which door first</p>
 		<h2 class="ll-section-title">Region × banner map</h2>
-		<p class="index-lede">The qualifier map — region × banner, colour-coded by gap. Built in V3.</p>
+		<p class="index-lede">The "which door first" view — region × banner, colour-coded by gap. Coming.</p>
 	</section>
 
 	<!-- ═══ CTA / ENGAGEMENT ══════════════════════════════════════════════════ -->
@@ -515,6 +523,15 @@
 	.idx-cell.v-over, .gap-cell.v-over { color: var(--ll-tokyo-30); }
 	.idx-cell.v-inband { color: var(--ll-london-20); }
 	.gap-cell.v-inband { color: var(--ll-london-35); }
+	.at-line {
+		display: block;
+		font-size: 10px;
+		font-weight: 400;
+		font-style: italic;
+		color: var(--ll-london-40);
+		letter-spacing: 0.02em;
+		margin-top: 2px;
+	}
 
 	/* CTA */
 	.cta-block { text-align: left; }
