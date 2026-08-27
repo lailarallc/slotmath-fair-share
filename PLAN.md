@@ -172,11 +172,18 @@ Steps:
       fonts+CSS). All colors are --ll-* tokens. ✅ Desktop QA passed (user), nits fixed
       (footnote "above the 1.3 band"; no internal task-id on prod), mobile 375px verified
       (table scrolls in its container, body no horizontal overflow, header intact).
-- [ ] V2: Index verdict + table — one banner line, one chart, per-cell table; continuous
+- [x] V2: Index verdict + table — one banner line, one chart, per-cell table; continuous
       index value + gap$ (not just OVER/in-band bucket).
     - Depends on: S1, D1
     - Done when: 30-second-rule layout renders; a boundary cell (Kroger SE 1.299) reads
       "right at the line", at 1440px and 375px.
+    - ✅ Built + deployed: verdict banner (19/30 in band; KPIs 5 under-all-club / 19 / 6
+      over) + SVG index distribution strip (0.7–1.3 band, 30 verdict-coloured ticks, 1.0
+      ref) + 30-cell table sorted by index, signed/coloured gap$, verdict left-border.
+      Single scrolling page w/ sticky sub-nav; #heatmap stub added. **Mobile verified by
+      DOM:** index table fits 375 (327px, no overflow), Slots/sales column hidden, no
+      scroll wall, body no horizontal overflow. ⏳ Aesthetic eyeball (strip/KPI polish)
+      pending user — pane can't screenshot this session.
 - [ ] V3: Heatmap qualifier map — region × banner SVG grid, gap-$ colour ramp from
       `lailara_palette`, channel toggle, filter state in URL query params.
     - Depends on: S1, D1
