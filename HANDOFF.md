@@ -9,6 +9,26 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-08-27 — Bridge note (written by Cowork advisor; prior session ended without /wrap)
+
+**State:** V3 (Heatmap qualifier map) is BUILT, DEPLOYED, and QA-PASSED on prod
+(commit `c34ff59`). All 2.5 views are live at slotmath.lailarallc.com: Dollarizer,
+Index, Heatmap. QA verified: all 30 tiles exact vs frozen JSON; URL round-trip
+(toggle → back → deep-link hard load) passes; 1440px pixels pass; 375px accepted on
+DOM verification. Zone-level Cloudflare RUM disabled fleet-wide + rule corrected
+(`6c929a9`). Stack wording amended for the HTML-table heatmap (`bf847ca`).
+GoatCounter funnel verified end-to-end earlier (cta_click on dashboard).
+
+**Housekeeping owed:** PLAN.md checkboxes V1–V3 were never ticked — tick them
+first, in the same commit as this note. F2 polish candidates on record: mobile
+card-stack option; filter-reactive heatmap headline.
+
+**Next:** F1 — client-mode described roadmap panel (copy only, names the
+IRI/Circana/SPINS extract shapes; no compute). Then F2 (brand frame finalize +
+CTA closing state + Deployed UI gate), then B (integration). No blockers.
+
+---
+
 ## 2026-08-26 22:03 — Built S1–S3 + D1–D2 + V1–V2; slotmath in the org, deploying live
 
 **Started from:** All planning gates passed; next = `/decompose`.

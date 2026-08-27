@@ -158,7 +158,7 @@ Steps:
       tampered cell. Wired as a CI `invariant` job that `deploy` **needs**. `npm run check`.
 
 **Phase V — Views (each reads the frozen JSON; needs S1 + D1)**
-- [ ] V1: Dollarizer view — headline filters to non-club **OVER** cells (Walmart West
+- [x] V1: Dollarizer view — headline filters to non-club **OVER** cells (Walmart West
       −$736k, Regional NE 1.84, Sprouts West 1.34); Costco UNDER cells behind the
       "club-normal, not a 3× expansion case" flag; every $ labeled basis+period from
       JSON metadata; both directions shown. **The over-shelved list cross-links to the
