@@ -512,6 +512,22 @@ The product gate returned **Revise** (fundable; 5 pre-build fixes). All resolved
   explicitly labeled as the **client-mode roadmap upgrade**, not the demo's headline.
 - **Note:** aligns the artifact to the already-locked positioning; does not reopen it.
 
+### 2026-08-27 — cinderhaven-promo-response v0.5.0 is a no-op for slotmath; keep the frozen snapshot
+- **Decision:** slotmath keeps its frozen, provenance-stamped JSON unchanged through
+  promo-response v0.5.0. Verified on both sides: that package never reads or writes
+  `raw.scan_data` / `raw.distribution_log` (its criterion 11, AST-denylist tested), and
+  slotmath's analysis scripts (`readiness_gate.py`, `precompute.py`) read only
+  `raw.scan_data`, `raw.distribution_log`, `raw.stores` — zero references to the
+  package's overlay namespace (`promo_events` / `promo_scan_delta` / `promo_scan_truth`)
+  anywhere in this repo (grep-verified 2026-08-27, by the Cowork advisor).
+- **Why:** v0.5.0 moved only that package's additive overlay artifacts. Canonical
+  trailing-52-week scan revenue — $32,323,139.62 unrounded; **$32,323,140** as asserted
+  by slotmath's invariant — is untouched by construction. The frozen JSON's inputs are
+  byte-identical before and after v0.5.0, so re-freezing would reproduce identical
+  numbers: the snapshot stands on unchanged provenance, not on a launch-clock tradeoff.
+- **Revisit only:** at the first client-mode engagement, or if slotmath ever begins
+  consuming the overlay namespace.
+
 ---
 
 ## Reversed / Superseded
