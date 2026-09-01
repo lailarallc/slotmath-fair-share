@@ -183,14 +183,14 @@
 			<p class="footnote">
 				Basis: retail scan revenue (CY2025). Over-covered = the scan-revenue scale by which a
 				cell's share of authorized slots exceeds its share of scan dollars (above the
-				{m.band_upper} band). Cinderhaven Provisions, a synthetic dataset.
+				{m.band_upper} band). Cinderhaven synthetic data (50 SKUs, 6 retailers, 640 doors).
 			</p>
 
 			<aside class="crosslink">
 				<span class="crosslink-label">Next</span>
 				<p>
 					Each over-shelved cell is a fix-or-kill question at the SKU level. The prepared answer
-					lives in <a href="https://lailarallc.com" target="_blank" rel="noopener">SKU
+					lives in <a href="https://lailarallc.com/work/sku-portfolio-audit" target="_blank" rel="noopener">SKU
 					Rationalization</a> — which items in that door earn the space, and which to cut.
 				</p>
 			</aside>
@@ -301,8 +301,10 @@
 				<span class="lg lg-over">over-shelved</span>
 			</div>
 			<p class="footnote">
-				Index = share of authorized slots ÷ share of scan dollars. The 0.7–1.3 band is shelf
-				proportional to sales. n = {cells.length} retailer–region cells, CY2025.
+				Index = share of authorized slots ÷ share of scan dollars. "Slots" counts authorized
+				items per door — an honest proxy for facings, which small brands don't track. The
+				0.7–1.3 band is shelf proportional to sales. n = {cells.length} retailer–region cells,
+				CY2025.
 			</p>
 		</figure>
 
