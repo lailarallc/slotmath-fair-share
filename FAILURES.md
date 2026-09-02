@@ -33,6 +33,41 @@ quarto" or "scope, scrollytelling, decoration"]
 
 [New entries get added here, most recent at the top]
 
+### 2026-09-02 — Piping a generated image from the browser to disk was the wrong tool
+
+**Attempted:** Generate the 1200×630 OG card by drawing it on a canvas in the browser
+(brand fonts already loaded on prod), then `toDataURL('image/png')` and write the base64 to
+`static/og-card.png`.
+
+**Why it didn't work:** There is no path from a browser canvas to disk that doesn't route the
+~109KB base64 through the model context — the sandbox blocks downloads, and I can't reproduce a
+109KB string into a Bash/Write call without authoring it. The browser can render it but can't
+hand it to the filesystem.
+
+**What we tried instead:** Generated the PNG **directly on disk with Pillow** + the brand TTFs
+(`data-hygiene-auditor/.../brand_fonts/PlayfairDisplay-Bold.ttf`, `SourceSans3-*.ttf`) — no
+transfer, on-brand, 38KB. Lesson: to produce an image asset, draw it with Pillow (or another
+on-disk generator) using the TTF brand fonts; use the browser only to *preview* it, never to
+ferry bytes to disk.
+
+**Status:** Resolved · **Tags:** og-card, image-generation, pillow, canvas, brand-fonts, ttf, browser-transfer
+
+### 2026-09-02 — Read on `active/` paths failed: the project had moved to `published/`
+
+**Attempted:** Start the audit-fix work by Reading `C:\Users\mssha\projects\active\slotmath-fair-share\src\app.html`.
+
+**Why it didn't work:** The project had been **moved `active/` → `published/`** (it graduated
+after v0.1.0 shipped). `active/slotmath-fair-share` no longer exists; the git repo (HEAD intact)
+now lives at `published/slotmath-fair-share`, which was the cwd all along. Earlier in the same
+session `active/` paths had worked, so the assumption carried until a Read failed.
+
+**What we tried instead:** Verified reality — `pwd`, `git rev-parse` in both locations, confirmed
+`published/` is the real repo (HEAD matched, prod deployed from it). Lesson: after a project may
+have graduated, confirm cwd with one `pwd`/`git rev-parse` at the start rather than trusting a
+remembered path — `active/` → `published/` is a fleet lifecycle move.
+
+**Status:** Resolved · **Tags:** cwd, project-move, active-published, fleet-lifecycle, path-assumption
+
 ### 2026-08-27 — GoatCounter count.js leaked the page query string on BOTH the event and the pageview
 
 **Attempted:** Fire the `cta_click` event with `window.goatcounter.count({ path: 'cta_click',

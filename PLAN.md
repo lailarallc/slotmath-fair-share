@@ -295,6 +295,10 @@ the active plan.
   gate (77 assertions), org reusable deploy workflow. Instrumentation param-less on both beacon
   surfaces (query-leak found + fixed at B); GoatCounter `cta_click`/pageview threshold armed.
 - Tag: **v0.1.0**
+- Post-launch (2026-09-02): Max audit fixes deployed (proxy honesty line, SKU link, social
+  meta + OG card, canon-verified data credit); repo made **public** (clean secret scan); added
+  to the `MsShawnP` profile README (Sales-penetration table, top-line **43 tools / 34 live**).
+  Project graduated `active/` → `published/`. **Launch fully closed.**
 
 ### [Date completed] — [Goal]
 - Outcome: [what shipped or what was decided]

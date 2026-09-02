@@ -9,6 +9,34 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-09-02 — Max audit fixes deployed; repo public; profile README launch entry
+
+**Started from:** v0.1.0 shipped (2026-08-27); post-launch audit + portfolio launch entry.
+
+**Did:** Max's live-audit fixes, deployed (`e7a7a72`/`9eabd19`): (1) item-count proxy honesty
+line at the index definition ("Slots" = authorized items per door, an honest proxy for facings);
+(2) SKU link → `lailarallc.com/work/sku-portfolio-audit`; (3) full social meta (OG/Twitter/
+canonical) + a generated 1200×630 branded OG card (`static/og-card.png`, Pillow + brand TTFs);
+(4) standardized data credit + footer tagline. Canon-verified 50 SKUs / 6 retailers / 640 doors
++ $32,323,139.62 / 9,176 against `canonical_values.yml`; **"Cinderhaven Provisions" IS canon**
+(kept, not dropped). Confirmed frame **v1.5.1**, th/td alignment, 375px phone pass. Committed a
+fleet-authored **promo-response v0.5.0 no-op** DECISIONS entry that was sitting uncommitted.
+Profile README (`MsShawnP/MsShawnP`, pushed `77b8e8f`/`951f1f8`): Slot Math row after Void Finder,
+section count Five→Six, top-line **42/33 → 43/34** (both counts verified by counting actual rows).
+Flipped **slotmath-fair-share PUBLIC** after a clean full-history secret scan.
+
+**State:** Slot Math **fully launched** — repo public, live with all audit fixes, OG card serving
+(HTTP 200), profile README live. slotmath tree clean; origin at `9eabd19` (pre-wrap-commit).
+**NOTE: project moved `active/` → `published/` this session — cwd is now
+`C:\Users\mssha\projects\published\slotmath-fair-share`.**
+
+**Next:** Launch closed, no active build task. Max writing the `/work` case study (external).
+Options: monitor `cta_click_rate` vs the pre-registered threshold, an F2 polish candidate
+(filter-reactive heatmap headline; mobile card-stack), or the five-chip fleet cleanup pass
+(incl. the website repo's `git remote set-url`) when wanted.
+
+---
+
 ## 2026-08-27 15:30 — F2 + B shipped; query-leak closed on both surfaces; ARC COMPLETE
 
 **Started from:** F2 pending (V3 + F1 already shipped).

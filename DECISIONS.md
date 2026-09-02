@@ -19,6 +19,21 @@ Each entry:
 
 ## Architecture & Pipeline
 
+### 2026-09-02 — Data credit wording + canonical figures (Max audit)
+- **Decision:** The on-page data credit is **"Built on Cinderhaven synthetic data (50 SKUs,
+  6 retailers, 640 doors)"** + the standard Lailara footer tagline. The brand entity name is
+  **"Cinderhaven Provisions"** — this **IS** canon (`canonical_values.yml:509` flags
+  "Cinderhaven Foods" as the brand-name error and names "Cinderhaven Provisions" correct), so it
+  is never dropped where the brand is named; the *dataset* credit uses "Cinderhaven synthetic
+  data" (the fleet convention).
+- **Why:** All three counts and the totals are canon-verified against
+  `cinderhaven-data-platform/reference/canonical_values.yml`: 50 SKUs, 6 retailers, **640 doors**
+  (stores_selling CY2025), $32,323,139.62 CY2025 revenue, 9,176 authorized store-SKUs — matching
+  the frozen JSON to the cent. Global rule: all figures must match canon.
+- **Scope:** on-page footer + footnotes; any future copy naming the dataset or the brand.
+- **Do not:** drop "Provisions" (it is canon, not an error); do not assert the 50/6/640 figures
+  from memory — they trace to `canonical_values.yml`; do not use "Cinderhaven Foods".
+
 ### 2026-08-25 — Stack decision deferred to /plan-eng-review
 - **Why:** No request-time compute is needed (tool is precomputed), so the choice
   is interactivity vs. deployment/maintenance overhead, not capability. Fleet Dash
