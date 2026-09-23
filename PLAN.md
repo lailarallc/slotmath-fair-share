@@ -313,3 +313,9 @@ Each entry records what was found, what was fixed, and when to
 check again.
 
 <!-- Entries are added by /improve — don't delete this section -->
+
+### 2026-09-23 — Audit (health check only)
+- **Findings:** 0 critical, 5 important, 3 nice-to-have
+- **Top concerns:** Public repo has no README (visitors from the profile README land on a bare file list). Page copy and aria-labels hardcode cell counts ("six" over-shelved cells, 5/19/6 split, "All 30", 0.7/1.3 axis text) that the CI invariant does not pin, so a data refresh would ship stale prose silently. PLAN.md top still reads the data-readiness gate as the current arc; the pre-registered cta_click_rate review falls due ~2026-10-22 (8 weeks post-launch) with nothing scheduled; Python deps (pandas, psycopg2, python-dotenv) undeclared and SSOT path hardcoded. Nice: dead static/og-card.png (og:image now uses shared generator), readiness_gate.py --as-of passes a str into date math (TypeError), invariant does not recompute per-cell shares/index/gap (all 30 verified consistent by hand today). Build passes; 77 invariants hold; no secrets in tracked files. Manual security/code/data pass replaced the automated reviews.
+- **Action taken:** Audit only — no fixes this session
+- **Next review:** 2026-12-22
