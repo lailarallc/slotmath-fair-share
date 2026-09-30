@@ -57,6 +57,8 @@ def load_env() -> dict:
 
 def connect(cfg: dict):
     import psycopg2
+    import prod_guard
+    prod_guard.check(host=cfg["host"], port=cfg["port"])  # refuses a fly tunnel to production
     try:
         return psycopg2.connect(
             host=cfg["host"], port=cfg["port"], dbname=cfg["dbname"],
