@@ -176,7 +176,7 @@ doable from repo/CLI). Then Code re-verifies the beacon is gone. See DECISIONS 2
 forks + pre-registered gate rules. **/office-hours** (11-agent panel grounded on real
 repos) → 🟡; caught 3 brief errors; repositioned demo as internal targeting +
 engagement-qualifier. **Built + ran the data-readiness gate** on the real SSOT (flyctl
-proxy; Docker broken) → ✅ **PASS** (11/30 cells outside band, $1.22M Costco West, sanity
+proxy; Docker broken) → ✅ **PASS** (11/30 cells outside band, $1.22M Club retailer West, sanity
 $32.3M CY2025 to the dollar). **/plan-ceo-review** → Revise → ~1-week 2.5-view demo,
 Costco demoted, client mode described-not-built, one CTA. **/plan-eng-review** →
 Needs-work → architecture locked (SvelteKit adapter-static + bespoke SVG,

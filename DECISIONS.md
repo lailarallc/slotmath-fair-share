@@ -123,7 +123,7 @@ Each entry:
   (do NOT reuse dbt `channel_type` — that's retailer/distributor/DTC, not retail format).
   3-value (not binary) so the headline can be honest: Walmart is **mass**, not "grocery".
 - **Front end:** headline / Index verdict default-filters to non-club **OVER** cells (lead
-  Walmart West −$736k, Regional NE 1.84, Sprouts West 1.34); all 5 Costco UNDER cells sit
+  National mass retailer West −$736k, Regional NE 1.84, Regional natural grocer West 1.34); all 5 club retailer UNDER cells sit
   behind the channel flag labeled "club-normal, not a 3× expansion case". Render index as a
   **continuous value + gap$**, not only an OVER/in-band bucket (so boundary cells read as
   "right at the line").
@@ -211,7 +211,7 @@ Each entry:
   2. **Freeze the data** — run the precompute locally (flyctl), emit the provenance-stamped
      30-cell JSON (per-cell gap$, signed index, `retail_channel`), commit it.
   3. **Invariant test** — assert JSON sums to $32,323,140, 9,176 slots, 30 cells, Σgap$=0,
-     all 6 OVER cells non-Costco / all 5 UNDER cells Costco. Wire into CI.
+     all 6 OVER cells non-club / all 5 UNDER cells club retailer. Wire into CI.
   4. **View #1 — Dollarizer** (headline non-club OVER; Costco behind the flag; basis+period
      label on every $ from JSON metadata).
   5. **View #2 — Index verdict + table** (continuous index + gap$; 30-second layout).
@@ -272,9 +272,9 @@ Each entry:
 - **Sanity:** total scan $ = **$32,323,140** (= canonical $32.3M CY2025 to the
   dollar); 9,176 authorized slots (= canonical). Confirms real warehouse, right window.
 - **Result:** **11 of 30 retailer × region cells fall outside 0.7–1.3.** Widest gap
-  **Costco West: index 0.33, $1.22M** under-shelved. Costco is under-shelved in all
-  five regions (0.33–0.60); over-shelved cells include Walmart West (1.34, −$736k),
-  Regional NE (1.84), Sprouts West (1.34). Per-cell detail: `analysis/output/readiness_gate.csv`.
+  **Club retailer West: index 0.33, $1.22M** under-shelved. The club retailer is under-shelved in all
+  five regions (0.33–0.60); over-shelved cells include National mass retailer West (1.34, −$736k),
+  Regional NE (1.84), Regional natural grocer West (1.34). Per-cell detail: `analysis/output/readiness_gate.csv`.
 - **Mechanism confirmed:** presence is saturated (~99.5%), so spread is entirely
   velocity/dollar dispersion — exactly what office-hours said had to be true for the
   demo to live. It is.
@@ -284,7 +284,7 @@ Each entry:
   be "club-normal," not a literal 3× slot-expansion case. **The index and/or copy likely
   need channel-awareness (club vs. conventional grocery).** The cleaner, less-arguable
   stories are the over-shelved grocery cells. Resolve in /plan-eng-review + copy.
-- **Do not:** headline "Costco under-shelves you by $1.2M" without the club-channel
+- **Do not:** headline "The club retailer under-shelves you by $1.2M" without the club-channel
   framing — that's the kind of unqualified claim the honesty brand can't ship.
 
 ---
@@ -399,8 +399,8 @@ Each entry:
   - **No all-commodity volume in the SSOT** → true ACV-weighted shelf share cannot be
     sourced; use `volume_tier` (A/B/C) proxy and state it as a proxy.
   - **Canonical basis-labeling is mandatory:** every dollar names basis + period (e.g.
-    "$32.3M retail scan (CY2025)"); **6 contracted retailers** (Walmart, Costco, Whole
-    Foods, Sprouts, Kroger, Regional Group) — **not Wegmans**; 50 SKUs / 5 product
+    "$32.3M retail scan (CY2025)"); **6 contracted retailers** (national mass retailer, club retailer, natural
+    grocer, regional natural grocer, conventional grocer, Regional Group) — **not Wegmans**; 50 SKUs / 5 product
     lines. Canon is `cinderhaven-data-platform/reference/canonical_values.yml` /
     Postgres — never hardcode a figure from a README/constant/fixture.
 - **Scope:** global (data layer)
@@ -470,13 +470,13 @@ Each entry:
 The product gate returned **Revise** (fundable; 5 pre-build fixes). All resolved below.
 
 ### 2026-08-25 — Costco/club cells demoted from the headline (channel-awareness)
-- **Why:** The widest number ($1.22M Costco West) is one we distrust as a club-channel
+- **Why:** The widest number ($1.22M Club retailer West) is one we distrust as a club-channel
   artifact (clubs carry few SKUs at huge velocity → low slot-share/high dollar-share is
   club-normal, not a 3× expansion case). Leading a trust-building tool with a
   walk-back-required headline is an unforced credibility hit that compounds across all 7
   tools.
 - **Decision:** Lead Index verdict + Dollarizer with the clean over-shelved
-  **conventional-grocery** cells (Walmart West −$736k, Regional NE 1.84, Sprouts West
+  **conventional-grocery** cells (National mass retailer West −$736k, Regional NE 1.84, Regional natural grocer West
   1.34). Club cells appear only behind an explicit channel-awareness flag ("club-normal —
   not a 3× slot-expansion case"); if channel-awareness can't ship in scope, exclude club
   cells from the headline rather than caveat in place.

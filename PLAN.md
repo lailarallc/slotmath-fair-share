@@ -47,7 +47,7 @@ retailer × region to carry a demo — or does it cluster at ~1.0?
       via raw.stores, connected through flyctl proxy
 - [x] Compute the index per retailer × region: slot-share ÷ dollar-share (dispersion)
 - [x] Count cells outside 0.7–1.3; dollarize the widest gap (scan revenue, no margin)
-- [x] Verdict: **✅ BUILD** — 11/30 cells outside band, widest $1.22M (Costco West),
+- [x] Verdict: **✅ BUILD** — 11/30 cells outside band, widest $1.22M (Club retailer West),
       sanity $32.3M CY2025 to the dollar
 - [x] Gate result recorded in DECISIONS.md (2026-08-25 — GATE RESULT)
 
@@ -72,7 +72,7 @@ retailer × region to carry a demo — or does it cluster at ~1.0?
 ## Definition of done for this arc — ✅ MET
 
 - [x] The index is computed from real SSOT data (fixture never touched)
-- [x] The distribution is characterized (11/30 outside band; widest $1.22M Costco West)
+- [x] The distribution is characterized (11/30 outside band; widest $1.22M Club retailer West)
 - [x] A go decision is recorded in DECISIONS.md with the numbers
 - [x] Go → unblocked.
 
@@ -149,7 +149,7 @@ Steps:
       cent), channels club 5 / mass 5 / grocery 20, full precision (Σgap≈0 to float
       epsilon). File-replace swap confirmed: site renders real data, no code change.
 - [x] D2: Invariant test asserting the committed JSON: sum $32,323,140, 9,176 slots, 30
-      cells, `Σgap$ = 0`, all 6 OVER cells non-Costco / all 5 UNDER cells Costco,
+      cells, `Σgap$ = 0`, all 6 OVER cells non-club / all 5 UNDER cells club retailer,
       `retail_channel` present on every cell. Wire into the CI gate.
     - Depends on: D1
     - Done when: test passes locally and in CI; flipping one cell's number fails it.
@@ -158,16 +158,16 @@ Steps:
       tampered cell. Wired as a CI `invariant` job that `deploy` **needs**. `npm run check`.
 
 **Phase V — Views (each reads the frozen JSON; needs S1 + D1)**
-- [x] V1: Dollarizer view — headline filters to non-club **OVER** cells (Walmart West
-      −$736k, Regional NE 1.84, Sprouts West 1.34); Costco UNDER cells behind the
+- [x] V1: Dollarizer view — headline filters to non-club **OVER** cells (National mass retailer West
+      −$736k, Regional NE 1.84, Regional natural grocer West 1.34); club retailer UNDER cells behind the
       "club-normal, not a 3× expansion case" flag; every $ labeled basis+period from
       JSON metadata; both directions shown. **The over-shelved list cross-links to the
       SKU Rationalization tool ("fix-or-kill is the prepared answer").**
     - Depends on: S1, D1
-    - Done when: renders the OVER grocery/mass cells with gap$, Costco hidden behind a
+    - Done when: renders the OVER grocery/mass cells with gap$, club retailer hidden behind a
       toggle, the over-shelved list links to SKU Rationalization, legible at 1440px & 375px.
-      ✅ Built + deployed: hero ($736K Walmart West, 9.0%/6.7%, idx 1.34), 6-cell
-      over-shelved table-as-chart (Tokyo bars, total $1.64M), Costco disclosure w/
+      ✅ Built + deployed: hero ($736K National mass retailer West, 9.0%/6.7%, idx 1.34), 6-cell
+      over-shelved table-as-chart (Tokyo bars, total $1.64M), club retailer disclosure w/
       club-normal caveat, SKU-Rationalization cross-link, Lailara brand frame (vendored
       fonts+CSS). All colors are --ll-* tokens. ✅ Desktop QA passed (user), nits fixed
       (footnote "above the 1.3 band"; no internal task-id on prod), mobile 375px verified
@@ -202,7 +202,7 @@ Steps:
       prior filter; deep-link/reload restores filtered view; 375px = 0 page overflow, table
       fits (327px, no wall), chips dropped; no console/hydration errors; 77 invariants hold.
       ✅ **User QA passed on prod (2026-08-27):** 30 tiles exact + signs + shading (incl. the
-      Kroger SE −$382K-but-in-band grey call), URL round-trip (filter/back/deep-load) clean,
+      Conventional grocer SE −$382K-but-in-band grey call), URL round-trip (filter/back/deep-load) clean,
       1440 legible + Economist voice, club footnote drops in grocery view. 375 accepted on
       Code's DOM verification (0 overflow, 327px) — no mobile pixels this session (screenshots
       down; user's capture path can't resize a maximized window). One F2 cosmetic candidate
@@ -230,10 +230,10 @@ Steps:
 >   horizontal scroll). Not built now — the hero delivers the headline $ without scroll,
 >   so nothing's broken; building it today is speculative scope.
 > - **Filter-reactive V3 heatmap headline** (user QA 2026-08-27, cosmetic — not a defect).
->   The heatmap headline is hard-wired to the global hero (Walmart West −$736K), but the
+>   The heatmap headline is hard-wired to the global hero (National mass retailer West −$736K), but the
 >   intro copy invites "the clean grocery story"; when filtered to Grocery, headline and
 >   copy disagree. Fix: derive the headline cell from the *visible* channel's top
->   over-shelved cell (grocery → Sprouts West −$178K), so the lead tracks the filter.
+>   over-shelved cell (grocery → Regional natural grocer West −$178K), so the lead tracks the filter.
 >   `hero` today = global `over[0]`; make it `$derived` off `visibleBanners`/`channel`,
 >   pick the max-|gap| OVER cell among visible banners, fall back to global hero when the
 >   filter yields no OVER cell (e.g. Club → keep an under-shelved-framed line or the
