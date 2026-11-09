@@ -199,12 +199,12 @@
 
 		<div class="block">
 			<button class="disclosure" onclick={() => (showClub = !showClub)} aria-expanded={showClub}>
-				{showClub ? '−' : '+'} Club channel (club retailer) — {under.length} under-shelved cells
+				{showClub ? '−' : '+'} Club retailer: {under.length} under-shelved cells
 			</button>
 			{#if showClub}
 				<div class="club-panel">
 					<p class="caveat">
-						The club retailer is a club channel: few SKUs at high velocity. A low index here is
+						The club retailer sells few SKUs at high velocity. A low index here is
 						<strong>club-normal</strong>, not a literal {(1 / under[0].index).toFixed(1)}×
 						slot-expansion case. Shown for completeness, kept out of the headline on purpose.
 					</p>
@@ -253,7 +253,7 @@
 		<div class="kpis">
 			<div class="kpi kpi-under">
 				<span class="kpi-n">{under.length}</span>
-				<span class="kpi-l">under-shelved<br />all club retailer</span>
+				<span class="kpi-l">under-shelved<br />all at the club retailer</span>
 			</div>
 			<div class="kpi kpi-inband">
 				<span class="kpi-n">{inBand.length}</span>
