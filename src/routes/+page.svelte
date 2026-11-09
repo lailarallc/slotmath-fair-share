@@ -2,6 +2,7 @@
 	// Slot Math — single scrolling page, three view sections + shared CTA.
 	//   #dollarizer (V1) · #index (V2) · #heatmap (V3) · #engagement (CTA)
 	import { afterNavigate } from '$app/navigation';
+	import { retailerLabel } from '$lib/displayLabels.js';
 	let { data } = $props();
 	const m = data.slotmath.metadata;
 	const cells = data.slotmath.cells;
@@ -127,12 +128,12 @@
 			<p class="eyebrow">Over-shelved · defensive intel</p>
 			<p class="ll-headline-number hero-number">{usdBig(hero.gap_dollars)}</p>
 			<h1 class="ll-section-title hero-find">
-				of scan revenue sits behind more shelf than it earns — at {hero.retailer},
+				of scan revenue sits behind more shelf than it earns — at the {retailerLabel(hero.retailer, false)},
 				{hero.region} region.
 			</h1>
 			<p class="hero-lede">
 				At six retailer–region cells, your authorized shelf runs ahead of your scan sales.
-				{hero.retailer}'s {hero.region} region leads: {pct1(hero.slot_share)} of your slots on
+				The {retailerLabel(hero.retailer, false)}'s {hero.region} region leads: {pct1(hero.slot_share)} of your slots on
 				{pct1(hero.dollar_share)} of your dollars — an index of {idx(hero.index)}. A category
 				manager computes their own version of this number from syndicated data. See it first, and
 				walk into the reset with the answer already in hand.
@@ -157,7 +158,7 @@
 						{#each over as c (c.retailer + c.region)}
 							<tr>
 								<td>
-									<span class="rr">{c.retailer}</span>
+									<span class="rr">{retailerLabel(c.retailer)}</span>
 									<span class="region">· {c.region}</span>
 									<span class="chip chip-{c.retail_channel}">{c.retail_channel}</span>
 								</td>
@@ -198,17 +199,17 @@
 
 		<div class="block">
 			<button class="disclosure" onclick={() => (showClub = !showClub)} aria-expanded={showClub}>
-				{showClub ? '−' : '+'} Club channel (Costco) — {under.length} under-shelved cells
+				{showClub ? '−' : '+'} Club channel (club retailer) — {under.length} under-shelved cells
 			</button>
 			{#if showClub}
 				<div class="club-panel">
 					<p class="caveat">
-						Costco is a club channel: few SKUs at high velocity. A low index here is
+						The club retailer is a club channel: few SKUs at high velocity. A low index here is
 						<strong>club-normal</strong>, not a literal {(1 / under[0].index).toFixed(1)}×
 						slot-expansion case. Shown for completeness, kept out of the headline on purpose.
 					</p>
 					<div class="table-scroll">
-						<table class="dollar-table" aria-label="Costco under-shelved cells">
+						<table class="dollar-table" aria-label="Club retailer under-shelved cells">
 							<thead>
 								<tr>
 									<th scope="col">Retailer · region</th>
@@ -220,7 +221,7 @@
 								{#each under as c (c.retailer + c.region)}
 									<tr>
 										<td>
-											<span class="rr">{c.retailer}</span>
+											<span class="rr">{retailerLabel(c.retailer)}</span>
 											<span class="region">· {c.region}</span>
 											<span class="chip chip-club">club</span>
 										</td>
@@ -252,7 +253,7 @@
 		<div class="kpis">
 			<div class="kpi kpi-under">
 				<span class="kpi-n">{under.length}</span>
-				<span class="kpi-l">under-shelved<br />all club (Costco)</span>
+				<span class="kpi-l">under-shelved<br />all club retailer</span>
 			</div>
 			<div class="kpi kpi-inband">
 				<span class="kpi-n">{inBand.length}</span>
@@ -265,8 +266,8 @@
 		</div>
 
 		<p class="index-lede">
-			Costco is under-shelved in every region — club-normal, not an expansion order. The
-			over-covered cells (Walmart, Sprouts, Regional Group) are where a category manager pushes
+			The club retailer is under-shelved in every region — club-normal, not an expansion order. The
+			over-covered cells (national mass retailer, regional natural grocer, Regional Group) are where a category manager pushes
 			back. Below: all {cells.length} retailer–region cells, ranked by index.
 		</p>
 
@@ -323,7 +324,7 @@
 					{#each allByIndex as c (c.retailer + c.region)}
 						<tr class={vClass(c.verdict)}>
 							<td>
-								<span class="rr">{c.retailer}</span>
+								<span class="rr">{retailerLabel(c.retailer)}</span>
 								<span class="region">· {c.region}</span>
 								<span class="chip chip-{c.retail_channel}">{c.retail_channel}</span>
 							</td>
@@ -348,7 +349,7 @@
 	<section id="heatmap" class="block">
 		<p class="eyebrow">Which door first</p>
 		<h2 class="ll-section-title heatmap-title">
-			{hero.retailer}'s {hero.region} region is the first door to defend — {usdBig(hero.gap_dollars)}
+			The {retailerLabel(hero.retailer, false)}'s {hero.region} region is the first door to defend — {usdBig(hero.gap_dollars)}
 			of shelf ahead of its sales.
 		</h2>
 		<p class="index-lede">
@@ -381,14 +382,14 @@
 					{#each visibleBanners as b (b)}
 						<tr>
 							<th scope="row" class="ban-h">
-								<span class="rr">{b}</span>
+								<span class="rr">{retailerLabel(b)}</span>
 								<span class="chip chip-{channelOf[b]}">{channelOf[b]}</span>
 							</th>
 							{#each REGIONS as r (r)}
 								{@const c = cellAt(b, r)}
 								{#if c}
 									<td class="heat {heatClass(c)}"
-										title="{b} · {r}: index {idx(c.index)}, {gapSigned(c.gap_dollars)} ({c.verdict})">
+										title="{retailerLabel(b)} · {r}: index {idx(c.index)}, {gapSigned(c.gap_dollars)} ({c.verdict})">
 										{usdCell(c.gap_dollars)}
 									</td>
 								{:else}
@@ -413,7 +414,7 @@
 		</p>
 		{#if channel === 'all' || channel === 'club'}
 			<p class="footnote heat-club-note">
-				Club (Costco) reads under-shelved in every region — club-normal, not an expansion order.
+				The club retailer reads under-shelved in every region — club-normal, not an expansion order.
 				In the map for channel awareness, out of the defensive headline.
 			</p>
 		{/if}
@@ -911,6 +912,7 @@
 		.heat-table { min-width: 0; border-spacing: 2px; }
 		td.heat { font-size: 11px; padding: 9px 2px; }
 		.heat-table .ban-h { white-space: normal; padding-right: 8px; font-size: 12px; }
+		.heat-table .ban-h .rr { white-space: normal; } /* role labels run longer than the old names */
 		.heat-table .ban-h .chip { display: none; }
 		.heat-table .reg-h { font-size: 11px; }
 		.seg { padding: 8px 12px; font-size: 13px; }
